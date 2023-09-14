@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://btt3vuqwo1fv3"]
+
+[ext_resource type="PackedScene" uid="uid://cs6lw0g4ggesh" path="res://player/player.tscn" id="1_5kal6"]
+
+[node name="World" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_5kal6")]
+position = Vector2(580, 313)
+MAX_SPEED = 600
+FRICTION = 5000
