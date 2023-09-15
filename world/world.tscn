@@ -8,3 +8,8 @@
 position = Vector2(580, 313)
 MAX_SPEED = 600
 FRICTION = 5000
+
+[node name="Player" parent="." instance=ExtResource("1_5kal6")]
+position = Vector2(600, 600)
+MAX_SPEED = 600
+FRICTION = 5000
