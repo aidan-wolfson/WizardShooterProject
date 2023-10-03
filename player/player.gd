@@ -14,7 +14,6 @@ extends CharacterBody2D
 
 func _physics_process(delta):
 	move(delta)
-	
 	if Input.is_action_just_pressed("action_attack") and attackTimer.is_stopped():
 		var projectile_dir = self.global_position.direction_to(get_global_mouse_position())
 		fire_projectile(projectile_dir)
