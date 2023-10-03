@@ -14,3 +14,6 @@ texture = ExtResource("1_jgens")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_sg52c")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+scale = Vector2(0.24, 0.24)

@@ -8,9 +8,6 @@ extends CharacterBody2D
 
 func _physics_process(delta):
 	move(delta)
-	
-	
-	
 
 func get_input_axis():
 	axis.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
