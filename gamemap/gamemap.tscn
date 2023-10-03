@@ -49,6 +49,7 @@ build_mode = 1
 polygon = PackedVector2Array(18, -122, -20, -122, -20, -112, -45, -112, -144, -112, -144, 112, 144, 112, 144, -112, 18, -112)
 
 [node name="Teleporter" type="Area2D" parent="TileMap/StaticBody2D"]
+collision_mask = 2
 script = ExtResource("2_30gnf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TileMap/StaticBody2D/Teleporter"]

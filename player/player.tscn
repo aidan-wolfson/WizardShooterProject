@@ -24,4 +24,3 @@ scale = Vector2(0.24, 0.24)
 [node name="AttackTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
-

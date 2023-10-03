@@ -4,7 +4,6 @@ extends Area2D
 func _on_body_entered(body):
 	#This line finds the player object in the current scene
 	var player = (get_tree().get_root().get_node("PlayerTesting")).find_child("Player", true, true)
-	
 	#This block moves the player to the location of the other teleporter, offset a little
 	#The if/elif figures out which scene the teleporter node is in
 	if self.find_parent("Tower_Space"):
