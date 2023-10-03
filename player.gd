@@ -1,0 +1,3 @@
+extends "res://EntityBase.gd"
+
+

@@ -7,6 +7,9 @@
 radius = 69.0072
 
 [node name="Player" type="CharacterBody2D"]
+scale = Vector2(0.7, 0.7)
+collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_mpsnb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -14,3 +17,7 @@ texture = ExtResource("1_jgens")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_sg52c")
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
