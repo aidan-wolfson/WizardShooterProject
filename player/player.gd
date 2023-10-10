@@ -12,11 +12,16 @@ extends CharacterBody2D
 @onready var axis = Vector2.ZERO
 @onready var attackTimer = $AttackTimer
 
+@onready var _animation_player = $AnimationPlayer
+
 func _physics_process(delta):
 	move(delta)
+	animationHandler()
 	if Input.is_action_just_pressed("action_attack") and attackTimer.is_stopped():
 		var projectile_dir = self.global_position.direction_to(get_global_mouse_position())
 		fire_projectile(projectile_dir)
+	
+	
 
 func get_input_axis():
 	axis.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
@@ -52,6 +57,33 @@ func fire_projectile(projectile_direction: Vector2):
 		projectile.rotation = projectile_rotation #set projectile rot to point at mouse pos
 		
 		attackTimer.start()
+		
+func animationHandler():
+	if self.axis == Vector2.ZERO:
+		_animation_player.play("RestDown")
+		get_node( "Sprite2D" ).set_flip_h( false )
+	else:
+		var directionRadians = ((self.axis).angle())
+		# Normalize radian to [0, 2π]
+		while directionRadians < 0:
+			directionRadians += 2 * PI
+		directionRadians = fmod(directionRadians, 2 * PI)
+
+		# Convert radian to direction
+		if 0 <= directionRadians and directionRadians < PI / 4:
+			_animation_player.play("WalkRight")
+			get_node( "Sprite2D" ).set_flip_h( false )
+		elif PI / 4 <= directionRadians and directionRadians < 3 * PI / 4:
+			_animation_player.play("WalkDown")
+			get_node( "Sprite2D" ).set_flip_h( false )
+		elif 3 * PI / 4 <= directionRadians and directionRadians < 5 * PI / 4:
+			_animation_player.play("WalkRight")
+			get_node( "Sprite2D" ).set_flip_h( true )
+		else:
+			_animation_player.play("WalkUp")
+			get_node( "Sprite2D" ).set_flip_h( false )
+	_animation_player.advance(0)
+
 
 func die():
 	queue_free()
