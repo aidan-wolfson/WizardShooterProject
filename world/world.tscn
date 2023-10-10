@@ -7,12 +7,13 @@
 [node name="PlayerTesting" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_5kal6")]
-position = Vector2(487, -170)
-scale = Vector2(0.16, 0.16)
+position = Vector2(-2, 1)
+scale = Vector2(1, 1)
 MAX_SPEED = 600
 FRICTION = 5000
 
 [node name="Game_Space" parent="." instance=ExtResource("2_ueur2")]
+position = Vector2(13, 39)
 
 [node name="Tower_Space" parent="." instance=ExtResource("3_d4x4x")]
-position = Vector2(486, -173)
+position = Vector2(3230, 40)

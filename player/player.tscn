@@ -20,6 +20,7 @@ shape = SubResource("CircleShape2D_sg52c")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2(0.24, 0.24)
+zoom = Vector2(0.5, 0.5)
 
 [node name="AttackTimer" type="Timer" parent="."]
 wait_time = 0.5
