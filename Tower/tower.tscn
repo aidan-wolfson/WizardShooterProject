@@ -35,6 +35,7 @@ sources/0 = SubResource("TileSetAtlasSource_jv8mv")
 size = Vector2(38, 7)
 
 [node name="Tower_Space" type="Node2D"]
+scale = Vector2(10, 10)
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_jqmeu")
