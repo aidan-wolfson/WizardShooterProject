@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://btt3vuqwo1fv3"]
+[gd_scene load_steps=7 format=3 uid="uid://btt3vuqwo1fv3"]
 
 [ext_resource type="PackedScene" uid="uid://cs6lw0g4ggesh" path="res://player/player.tscn" id="1_5kal6"]
 [ext_resource type="PackedScene" uid="uid://baw5ofuy3pojv" path="res://Tower/tower.tscn" id="2_ueur2"]
 [ext_resource type="PackedScene" uid="uid://rhsiplt44huo" path="res://gamemap/gamemap.tscn" id="3_d4x4x"]
-[ext_resource type="PackedScene" uid="uid://dc0u13xkwaixs" path="res://enemy/Enemy.tscn" id="4_3jxwb"]
+[ext_resource type="Script" path="res://GameStateMachine.gd" id="4_pibje"]
+[ext_resource type="Script" path="res://GamemapState.gd" id="5_7s6hx"]
+[ext_resource type="Script" path="res://TowerState.gd" id="6_afkqw"]
 
 [node name="PlayerTesting" type="Node2D"]
 
@@ -19,3 +21,11 @@ position = Vector2(13, 39)
 [node name="Tower_Space" parent="." instance=ExtResource("3_d4x4x")]
 position = Vector2(3230, 40)
 
+[node name="GameStateMachine" type="Node" parent="."]
+script = ExtResource("4_pibje")
+
+[node name="GamemapState" type="Node" parent="GameStateMachine"]
+script = ExtResource("5_7s6hx")
+
+[node name="TowerState" type="Node" parent="GameStateMachine"]
+script = ExtResource("6_afkqw")

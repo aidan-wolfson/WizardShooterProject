@@ -45,7 +45,7 @@ layer_0/tile_data = PackedInt32Array(-458762, 0, 0, -393226, 0, 1, -327690, 0, 2
 [node name="StaticBody2D" type="StaticBody2D" parent="TileMap"]
 physics_material_override = SubResource("PhysicsMaterial_7cqt5")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TileMap/StaticBody2D"]
+[node name="MapArea" type="CollisionPolygon2D" parent="TileMap/StaticBody2D"]
 build_mode = 1
 polygon = PackedVector2Array(18, -122, -20, -122, -20, -112, -45, -112, -144, -112, -144, 112, 144, 112, 144, -112, 18, -112)
 
