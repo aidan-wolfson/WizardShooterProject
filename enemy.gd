@@ -7,6 +7,7 @@ extends CharacterBody2D
 
 @onready var _animation_player = $AnimationPlayer
 @onready var spriteNode = $Sprite2D
+@onready var hitbox = $Area2D
 @onready var player = (get_tree().get_root().get_node("PlayerTesting")).find_child("Player", true, true)
 # animationPlayer.play("idle")
 # animationPlayer.play("walk")
@@ -35,7 +36,7 @@ func animationHandler():
 		_animation_player.play("walk")
 		spriteNode.set_flip_h( true )
 	elif velocity.x > 0:
-		# enemy is moving right
+		# enemy is moving right, don't flip
 		_animation_player.play("walk")
 		spriteNode.set_flip_h( false )
 	elif velocity == Vector2.ZERO:
@@ -48,3 +49,8 @@ func receiveDamage(dmg: int):
 	CURRENT_HP -= dmg
 	if CURRENT_HP <= 0:
 		die()
+
+func _on_hitbox_area_entered(area):
+	if area.is_in_group("Projectile"):
+		receiveDamage(area.damage)
+		print_debug("enemy hit for " + str(area.damage) + "damage!")
