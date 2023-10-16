@@ -62,29 +62,31 @@ _data = {
 "walk": SubResource("Animation_4hb3u")
 }
 
-[node name="Enemy" type="CharacterBody2D"]
+[node name="Enemy" type="CharacterBody2D" groups=["Enemy"]]
 collision_layer = 4
-collision_mask = 5
+collision_mask = 11
 script = ExtResource("1_xh2xk")
 move_speed = 80.0
+damage = 5
+knockback_modifier = 15.0
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." groups=["Enemy"]]
 scale = Vector2(6.325, 6.325)
 texture = ExtResource("2_fifwq")
 hframes = 7
 vframes = 5
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Enemy"]]
 shape = SubResource("CircleShape2D_4ytau")
 
-[node name="Hitbox" type="Area2D" parent="."]
+[node name="Hitbox" type="Area2D" parent="." groups=["Enemy"]]
 collision_layer = 4
 collision_mask = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" groups=["Enemy"]]
 shape = SubResource("CircleShape2D_4ytau")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." groups=["Enemy"]]
 libraries = {
 "": SubResource("AnimationLibrary_r0f13")
 }

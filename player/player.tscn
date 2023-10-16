@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b4s8h0dm0306i" path="res://Art/mystic_woods_free_2.1/sprites/characters/player.png" id="2_ccy6s"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sg52c"]
-radius = 69.0072
+radius = 150.21
 
 [sub_resource type="Animation" id="Animation_lc5xa"]
 resource_name = "Die"
@@ -154,7 +154,6 @@ _data = {
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(0.7, 0.7)
 collision_layer = 2
-collision_mask = 5
 script = ExtResource("1_mpsnb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -180,3 +179,12 @@ root_node = NodePath("../Sprite2D")
 libraries = {
 "": SubResource("AnimationLibrary_8snk2")
 }
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_sg52c")
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

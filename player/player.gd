@@ -11,8 +11,8 @@ extends CharacterBody2D
 
 @onready var axis = Vector2.ZERO
 @onready var attackTimer = $AttackTimer
-
 @onready var _animation_player = $AnimationPlayer
+@onready var spriteNode = $Sprite2D
 
 func _physics_process(delta):
 	move(delta)
@@ -20,7 +20,6 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("action_attack") and attackTimer.is_stopped():
 		var projectile_dir = self.global_position.direction_to(get_global_mouse_position())
 		fire_projectile(projectile_dir)
-	
 	
 
 func get_input_axis():
@@ -46,6 +45,16 @@ func apply_friction(amount):
 func apply_movement(accel):
 	velocity += accel
 	velocity = velocity.limit_length(MAX_SPEED)
+
+func receiveDamage(dmg: int):
+	CURRENT_HP -= dmg
+	if CURRENT_HP <= 0:
+		die()
+	
+	# damage flash effect
+	spriteNode.modulate = Color.DARK_RED
+	await get_tree().create_timer(0.15).timeout
+	spriteNode.modulate = Color.WHITE
 
 func fire_projectile(projectile_direction: Vector2):
 	if PROJECTILE:
@@ -84,8 +93,12 @@ func animationHandler():
 			get_node( "Sprite2D" ).set_flip_h( false )
 	_animation_player.advance(0)
 
-
 func die():
 	queue_free()
 
-
+func _on_hitbox_body_entered(body):
+	# need to improve
+	if body.is_in_group("Enemy"):
+		var damage = body.damage
+		receiveDamage(damage)
+		print_debug("Wuh oh! We've been hit for " + str(damage) + " damage! " + str(CURRENT_HP) + " hp remaining")
