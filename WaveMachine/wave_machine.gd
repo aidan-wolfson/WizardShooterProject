@@ -1,15 +1,15 @@
 extends Node
 
-var current_state : GameState
+var current_state : WaveState
 var states : Dictionary = {}
 
 func _ready():
 	for child in get_children():
-		if child is GameState:
+		if child is WaveState:
 			states[child.name.to_lower()] = child
 			child.Transition.connect(on_child_transition)
 	
-	current_state = states["TowerState".to_lower()]
+	current_state = states["InactiveState".to_lower()]
 	current_state.Enter()
 
 func _process(delta):

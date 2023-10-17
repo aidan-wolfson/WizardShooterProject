@@ -6,12 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://c1bsgrry8vu48" path="res://2D Pixel Dungeon Asset Pack/Character_animation/monsters_idle/skeleton1/v1/skeleton_v1_3.png" id="4_0gich"]
 [ext_resource type="Texture2D" uid="uid://cpdv17g53146j" path="res://2D Pixel Dungeon Asset Pack/Character_animation/monsters_idle/skeleton1/v1/skeleton_v1_4.png" id="5_6xaed"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_4ytau"]
+radius = 69.0072
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_0fkph"]
 animations = [{
 "frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_8rsx6")
-}, {
 "duration": 1.0,
 "texture": ExtResource("3_3dwpk")
 }, {
@@ -20,25 +20,31 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("5_6xaed")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_8rsx6")
 }],
 "loop": true,
-"name": &"default",
+"name": &"Resting",
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_4ytau"]
-radius = 69.0072
-
-[node name="Enemy" type="CharacterBody2D"]
-collision_layer = 4
-collision_mask = 5
+[node name="Enemy" type="Area2D"]
+collision_layer = 8
+collision_mask = 13
 script = ExtResource("1_xh2xk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(5.96046e-08, 0)
+scale = Vector2(1, 1)
+shape = SubResource("CircleShape2D_4ytau")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, 0)
 scale = Vector2(7.6875, 7.6875)
 sprite_frames = SubResource("SpriteFrames_0fkph")
-frame_progress = 0.584686
+animation = &"Resting"
+autoplay = "Resting"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_4ytau")
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
