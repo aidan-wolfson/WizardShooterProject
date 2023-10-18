@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://btt3vuqwo1fv3"]
+[gd_scene load_steps=4 format=3 uid="uid://btt3vuqwo1fv3"]
 
 [ext_resource type="PackedScene" uid="uid://cs6lw0g4ggesh" path="res://player/player.tscn" id="1_5kal6"]
 [ext_resource type="PackedScene" uid="uid://baw5ofuy3pojv" path="res://Tower/tower.tscn" id="2_ueur2"]
 [ext_resource type="PackedScene" uid="uid://rhsiplt44huo" path="res://gamemap/gamemap.tscn" id="3_d4x4x"]
-[ext_resource type="PackedScene" uid="uid://dc0u13xkwaixs" path="res://enemy/Enemy.tscn" id="4_3jxwb"]
 
 [node name="PlayerTesting" type="Node2D"]
 
@@ -13,9 +12,8 @@ scale = Vector2(1, 1)
 MAX_SPEED = 600
 FRICTION = 5000
 
-[node name="Game_Space" parent="." instance=ExtResource("2_ueur2")]
+[node name="Tower_Space" parent="." instance=ExtResource("2_ueur2")]
 position = Vector2(13, 39)
 
-[node name="Tower_Space" parent="." instance=ExtResource("3_d4x4x")]
+[node name="Game_Space" parent="." instance=ExtResource("3_d4x4x")]
 position = Vector2(3230, 40)
-
