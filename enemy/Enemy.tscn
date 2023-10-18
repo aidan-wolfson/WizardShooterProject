@@ -1,45 +1,103 @@
-[gd_scene load_steps=8 format=3 uid="uid://dc0u13xkwaixs"]
+[gd_scene load_steps=9 format=3 uid="uid://dc0u13xkwaixs"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_xh2xk"]
-[ext_resource type="Texture2D" uid="uid://byt8mrjiruq1p" path="res://Art/2D Pixel Dungeon Asset Pack/Character_animation/monsters_idle/skeleton1/v1/skeleton_v1_1.png" id="2_8rsx6"]
-[ext_resource type="Texture2D" uid="uid://e8kq44cg1du6" path="res://Art/2D Pixel Dungeon Asset Pack/Character_animation/monsters_idle/skeleton1/v1/skeleton_v1_2.png" id="3_3dwpk"]
-[ext_resource type="Texture2D" uid="uid://c1bsgrry8vu48" path="res://Art/2D Pixel Dungeon Asset Pack/Character_animation/monsters_idle/skeleton1/v1/skeleton_v1_3.png" id="4_0gich"]
-[ext_resource type="Texture2D" uid="uid://cpdv17g53146j" path="res://Art/2D Pixel Dungeon Asset Pack/Character_animation/monsters_idle/skeleton1/v1/skeleton_v1_4.png" id="5_6xaed"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_0fkph"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_8rsx6")
-}, {
-"duration": 1.0,
-"texture": ExtResource("3_3dwpk")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_0gich")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_6xaed")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
+[ext_resource type="Texture2D" uid="uid://bufshn5ho12sm" path="res://Art/mystic_woods_free_2.1/sprites/characters/slime.png" id="2_fifwq"]
+
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ytau"]
-radius = 69.0072
+radius = 64.16
 
-[node name="Enemy" type="CharacterBody2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_4p52p"]
+radius = 82.8
+
+[sub_resource type="Animation" id="Animation_yophd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_8kobs"]
+resource_name = "idle"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_4hb3u"]
+resource_name = "walk"
+length = 0.7
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [14, 15, 16, 17, 18, 19, 20]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_r0f13"]
+_data = {
+"RESET": SubResource("Animation_yophd"),
+"idle": SubResource("Animation_8kobs"),
+"walk": SubResource("Animation_4hb3u")
+}
+
+[node name="Enemy" type="CharacterBody2D" groups=["Enemy"]]
 collision_layer = 4
-collision_mask = 5
+collision_mask = 11
 script = ExtResource("1_xh2xk")
+move_speed = 80.0
+damage = 5
+knockback_modifier = 15.0
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(1, 0)
-scale = Vector2(7.6875, 7.6875)
-sprite_frames = SubResource("SpriteFrames_0fkph")
-frame = 1
-frame_progress = 0.978183
+[node name="Sprite2D" type="Sprite2D" parent="." groups=["Enemy"]]
+scale = Vector2(6.325, 6.325)
+texture = ExtResource("2_fifwq")
+hframes = 7
+vframes = 5
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Enemy"]]
 shape = SubResource("CircleShape2D_4ytau")
+
+[node name="enemy_hitbox" type="Area2D" parent="." groups=["Enemy"]]
+collision_layer = 4
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_hitbox"]
+shape = SubResource("CircleShape2D_4p52p")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." groups=["Enemy"]]
+libraries = {
+"": SubResource("AnimationLibrary_r0f13")
+}
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="area_entered" from="enemy_hitbox" to="." method="_on_hitbox_area_entered"]
