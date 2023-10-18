@@ -68,6 +68,37 @@ tracks/0/keys = {
 "values": [0]
 }
 
+[sub_resource type="Animation" id="Animation_lc5xa"]
+resource_name = "Die"
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [9, 54, 55, 56]
+}
+
+[sub_resource type="Animation" id="Animation_f61hc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
 [sub_resource type="Animation" id="Animation_31ymf"]
 resource_name = "RestDown"
 length = 2.4
@@ -202,7 +233,7 @@ shape = SubResource("CircleShape2D_sg52c")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2(0.24, 0.24)
-zoom = Vector2(0.5, 0.5)
+zoom = Vector2(0.52, 0.52)
 
 [node name="AttackTimer" type="Timer" parent="."]
 wait_time = 0.5

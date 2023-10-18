@@ -162,6 +162,7 @@ layer_1/tile_data = PackedInt32Array(524278, 65541, 2, 524279, 131077, 3, 524280
 scale = Vector2(1, 1)
 physics_material_override = SubResource("PhysicsMaterial_7cqt5")
 
+
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 rotation = 3.14159
 build_mode = 1

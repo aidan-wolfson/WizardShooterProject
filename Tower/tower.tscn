@@ -37,6 +37,13 @@ size = Vector2(38, 7)
 [node name="Tower_Space" type="Node2D"]
 scale = Vector2(10, 10)
 
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = -131.0
+offset_top = -102.0
+offset_right = -21.0
+offset_bottom = -44.0
+text = "Tower space"
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_jqmeu")
 format = 2
@@ -45,24 +52,18 @@ layer_0/tile_data = PackedInt32Array(-458762, 0, 0, -393226, 0, 1, -327690, 0, 2
 [node name="StaticBody2D" type="StaticBody2D" parent="TileMap"]
 physics_material_override = SubResource("PhysicsMaterial_7cqt5")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TileMap/StaticBody2D"]
+[node name="MapArea" type="CollisionPolygon2D" parent="TileMap/StaticBody2D"]
 build_mode = 1
 polygon = PackedVector2Array(18, -122, -20, -122, -20, -112, -45, -112, -144, -112, -144, 112, 144, 112, 144, -112, 18, -112)
 
-[node name="Teleporter" type="Area2D" parent="TileMap/StaticBody2D"]
+[node name="Teleporter" type="Area2D" parent="."]
+scale = Vector2(1, 1)
 collision_mask = 2
 script = ExtResource("2_1dmra")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TileMap/StaticBody2D/Teleporter"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Teleporter"]
 position = Vector2(-1, -118.5)
 shape = SubResource("RectangleShape2D_dhx8x")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_left = -131.0
-offset_top = -102.0
-offset_right = -21.0
-offset_bottom = -44.0
-text = "Tower space"
-
-[connection signal="area_entered" from="TileMap/StaticBody2D/Teleporter" to="TileMap/StaticBody2D/Teleporter" method="_on_area_entered"]
-[connection signal="body_entered" from="TileMap/StaticBody2D/Teleporter" to="TileMap/StaticBody2D/Teleporter" method="_on_body_entered"]
+[connection signal="area_entered" from="Teleporter" to="Teleporter" method="_on_area_entered"]
+[connection signal="body_entered" from="Teleporter" to="Teleporter" method="_on_body_entered"]

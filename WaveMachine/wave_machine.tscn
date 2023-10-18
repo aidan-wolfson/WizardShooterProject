@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://cggu3lnct1rqi"]
+
+[ext_resource type="Script" path="res://WaveMachine/wave_machine.gd" id="1_qk8d3"]
+[ext_resource type="Script" path="res://WaveMachine/Inactive.gd" id="2_1p8bu"]
+[ext_resource type="Script" path="res://WaveMachine/Active.gd" id="3_odlok"]
+
+[node name="WaveMachine" type="Node"]
+script = ExtResource("1_qk8d3")
+
+[node name="InactiveState" type="Node" parent="."]
+script = ExtResource("2_1p8bu")
+
+[node name="ActiveState" type="Node" parent="."]
+script = ExtResource("3_odlok")
