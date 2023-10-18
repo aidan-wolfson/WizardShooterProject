@@ -15,11 +15,11 @@ func _on_body_entered(body):
 		#within the PlayerTesting scene (as seen with targetNode.global_position) and their local 
 		#position within their scene. It also adds an offset, so that the player isn't teleported 
 		#into the other teleporter, thus triggering another teleport.
-		player.position = targetNode.global_position + targetNode.get_child(0).position + Vector2(0,30)
+		player.position = targetNode.get_child(0).global_position + Vector2(0,-150)
 		player.velocity = Vector2.ZERO
 		
 	elif self.find_parent("Game_Space"):
 		var targetNode = ((get_tree().get_root().get_node("PlayerTesting/Tower_Space")).find_child("Teleporter", true, true))
-		player.position = targetNode.global_position + targetNode.get_child(0).position + Vector2(0,30)
+		player.position = targetNode.get_child(0).global_position + Vector2(0,150)
 		player.velocity = Vector2.ZERO
 
