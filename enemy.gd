@@ -5,12 +5,14 @@ extends CharacterBody2D
 @export var move_speed : float = 30
 @export var move_dir : Vector2
 @export var damage : int
+@export var in_attack_range : bool = false
 
 @export var receives_knockback: bool = true
 @export var knockback_modifier: float = 0.1
 
 @onready var _animation_player = $AnimationPlayer
 @onready var spriteNode = $Sprite2D
+@onready var enemyAttackTimer = $AttackTimer
 #@onready var hitbox = $Area2D
 @onready var player = (get_tree().get_root().get_node("PlayerTesting")).find_child("Player", true, true)
 # animationPlayer.play("idle")

@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://dc0u13xkwaixs"]
+[gd_scene load_steps=9 format=3 uid="uid://dc0u13xkwaixs"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_xh2xk"]
 [ext_resource type="Texture2D" uid="uid://bufshn5ho12sm" path="res://Art/mystic_woods_free_2.1/sprites/characters/slime.png" id="2_fifwq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ytau"]
-radius = 69.0072
+radius = 64.16
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4p52p"]
+radius = 82.8
 
 [sub_resource type="Animation" id="Animation_yophd"]
 length = 0.001
@@ -79,16 +82,20 @@ vframes = 5
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Enemy"]]
 shape = SubResource("CircleShape2D_4ytau")
 
-[node name="Hitbox" type="Area2D" parent="." groups=["Enemy"]]
+[node name="enemy_hitbox" type="Area2D" parent="." groups=["Enemy"]]
 collision_layer = 4
-collision_mask = 8
+collision_mask = 10
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" groups=["Enemy"]]
-shape = SubResource("CircleShape2D_4ytau")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_hitbox"]
+shape = SubResource("CircleShape2D_4p52p")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." groups=["Enemy"]]
 libraries = {
 "": SubResource("AnimationLibrary_r0f13")
 }
 
-[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="area_entered" from="enemy_hitbox" to="." method="_on_hitbox_area_entered"]

@@ -8,9 +8,11 @@ extends CharacterBody2D
 @export var FRICTION = 1200
 
 @export var PROJECTILE: PackedScene = preload("res://projectiles/projectile.tscn")
+@export var in_enemy_range : bool = false
 
 @onready var axis = Vector2.ZERO
 @onready var attackTimer = $AttackTimer
+@onready var enemyAttackTimer = $EnemyAttackTimer
 @onready var _animation_player = $AnimationPlayer
 @onready var spriteNode = $Sprite2D
 
@@ -20,6 +22,9 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("action_attack") and attackTimer.is_stopped():
 		var projectile_dir = self.global_position.direction_to(get_global_mouse_position())
 		fire_projectile(projectile_dir)
+	
+	if in_enemy_range and enemyAttackTimer.is_stopped():
+		receiveDamage(10)
 	
 
 func get_input_axis():
@@ -55,6 +60,8 @@ func receiveDamage(dmg: int):
 	spriteNode.modulate = Color.DARK_RED
 	await get_tree().create_timer(0.15).timeout
 	spriteNode.modulate = Color.WHITE
+	
+	print_debug("Wuh oh! We've been hit for " + str(dmg) + " damage! " + str(CURRENT_HP) + " hp remaining")
 
 func fire_projectile(projectile_direction: Vector2):
 	if PROJECTILE:
@@ -96,9 +103,18 @@ func animationHandler():
 func die():
 	queue_free()
 
-func _on_hitbox_body_entered(body):
+func _on_player_hitbox_area_entered(area):
+	# need to improve
+	if area.is_in_group("Enemy"):
+		in_enemy_range = true
+		enemyAttackTimer.start()
+
+func _on_player_hitbox_area_exited(area):
+		if area.is_in_group("Enemy"):
+			in_enemy_range = false
+
+func _on_player_hitbox_body_entered(body):
 	# need to improve
 	if body.is_in_group("Enemy"):
-		var damage = body.damage
-		receiveDamage(damage)
-		print_debug("Wuh oh! We've been hit for " + str(damage) + " damage! " + str(CURRENT_HP) + " hp remaining")
+		in_enemy_range = true
+		enemyAttackTimer.start()
