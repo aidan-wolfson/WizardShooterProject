@@ -8,12 +8,13 @@ func Enter():
 
 func Update(delta):
 	#Grabs array of vectors of each "MapArea" Node for the specified scene
-	var map_Vector2_Array = (get_tree().get_root().get_node("PlayerTesting/Game_Space")).find_child("MapArea", true, true).get_polygon()
+	var mapAreaNode = (get_tree().get_root().get_node("PlayerTesting/Game_Space")).find_child("CollisionPolygon2D", true, true)
+	var map_Vector2_Array = mapAreaNode.get_polygon()
 	
 	#Translates the local scale and position of vectors to global scale and position
 	for vector in map_Vector2_Array:
-		var result = Vector2(vector[0], vector[1]) * Vector2(((get_tree().get_root().get_node("PlayerTesting")).find_child("Game_Space", true, true)).global_scale)
-		result = result + Vector2((get_tree().get_root().get_node("PlayerTesting/Game_Space")).find_child("MapArea", true, true).global_position)
+		var result = Vector2(vector[0], vector[1]) * Vector2(mapAreaNode.global_scale)
+		result = result + Vector2(mapAreaNode.global_position)
 		map_Vector2_Array.set(map_Vector2_Array.find(vector), result)
 	
 	var player = get_tree().get_root().get_node("PlayerTesting").find_child("Player", true, true)

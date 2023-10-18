@@ -1,17 +1,12 @@
-
 [gd_scene load_steps=8 format=3 uid="uid://btt3vuqwo1fv3"]
 
 [ext_resource type="PackedScene" uid="uid://cs6lw0g4ggesh" path="res://player/player.tscn" id="1_5kal6"]
 [ext_resource type="PackedScene" uid="uid://baw5ofuy3pojv" path="res://Tower/tower.tscn" id="2_ueur2"]
 [ext_resource type="PackedScene" uid="uid://rhsiplt44huo" path="res://gamemap/gamemap.tscn" id="3_d4x4x"]
-
 [ext_resource type="Script" path="res://GameStateMachine.gd" id="4_pibje"]
 [ext_resource type="Script" path="res://GamemapState.gd" id="5_7s6hx"]
 [ext_resource type="Script" path="res://TowerState.gd" id="6_afkqw"]
 [ext_resource type="PackedScene" uid="uid://cggu3lnct1rqi" path="res://WaveMachine/wave_machine.tscn" id="7_r5gcj"]
-[ext_resource type="PackedScene" uid="uid://dc0u13xkwaixs" path="res://enemy/Enemy.tscn" id="4_bhqcc"]
-
-
 
 [node name="PlayerTesting" type="Node2D"]
 

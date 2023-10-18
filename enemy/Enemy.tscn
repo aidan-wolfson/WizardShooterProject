@@ -1,9 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://dc0u13xkwaixs"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_xh2xk"]
-
 [ext_resource type="Texture2D" uid="uid://bufshn5ho12sm" path="res://Art/mystic_woods_free_2.1/sprites/characters/slime.png" id="2_fifwq"]
-
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ytau"]
 radius = 64.16
@@ -70,7 +68,6 @@ _data = {
 [node name="Enemy" type="CharacterBody2D" groups=["Enemy"]]
 collision_layer = 4
 collision_mask = 11
-
 script = ExtResource("1_xh2xk")
 move_speed = 80.0
 damage = 5
@@ -102,4 +99,3 @@ wait_time = 0.5
 one_shot = true
 
 [connection signal="area_entered" from="enemy_hitbox" to="." method="_on_hitbox_area_entered"]
-

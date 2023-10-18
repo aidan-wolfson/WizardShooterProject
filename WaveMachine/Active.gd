@@ -64,12 +64,12 @@ func spawnEnemies(enemyList):
 		enemyList.remove_at(0)
 
 func getRandomPoint():
-	var gameAreaCornerVectors2D = (get_tree().get_root().get_node("PlayerTesting/Game_Space")).find_child("MapArea", true, true).get_polygon()
+	var gameAreaCornerVectors2D = (get_tree().get_root().get_node("PlayerTesting/Game_Space")).find_child("CollisionPolygon2D", true, true).get_polygon()
 	
 	#Convert local vectors to global vectors
 	for vector in gameAreaCornerVectors2D:
 		var result = Vector2(vector[0], vector[1]) * Vector2(((get_tree().get_root().get_node("PlayerTesting")).find_child("Game_Space", true, true)).global_scale)
-		result = result + Vector2((get_tree().get_root().get_node("PlayerTesting/Game_Space")).find_child("MapArea", true, true).global_position)
+		result = result + Vector2((get_tree().get_root().get_node("PlayerTesting/Game_Space")).find_child("CollisionPolygon2D", true, true).global_position)
 		gameAreaCornerVectors2D.set(gameAreaCornerVectors2D.find(vector), result)
 	
 	#Initialize the min and max coordinates with the first vector values
