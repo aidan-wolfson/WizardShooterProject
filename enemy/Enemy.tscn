@@ -4,10 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://bufshn5ho12sm" path="res://Art/mystic_woods_free_2.1/sprites/characters/slime.png" id="2_fifwq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ytau"]
-radius = 64.16
+radius = 51.52
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4p52p"]
-radius = 82.8
+radius = 68.4
 
 [sub_resource type="Animation" id="Animation_yophd"]
 length = 0.001
@@ -84,7 +84,7 @@ shape = SubResource("CircleShape2D_4ytau")
 
 [node name="enemy_hitbox" type="Area2D" parent="." groups=["Enemy"]]
 collision_layer = 4
-collision_mask = 10
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_hitbox"]
 shape = SubResource("CircleShape2D_4p52p")

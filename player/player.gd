@@ -8,7 +8,7 @@ extends CharacterBody2D
 @export var FRICTION = 1200
 
 @export var PROJECTILE: PackedScene = preload("res://projectiles/projectile.tscn")
-@export var in_enemy_range : bool = false
+@export var in_enemy_range : bool
 
 @onready var axis = Vector2.ZERO
 @onready var attackTimer = $AttackTimer
@@ -25,6 +25,7 @@ func _physics_process(delta):
 	
 	if in_enemy_range and enemyAttackTimer.is_stopped():
 		receiveDamage(10)
+		enemyAttackTimer.start()
 	
 
 func get_input_axis():
@@ -104,17 +105,16 @@ func die():
 	queue_free()
 
 func _on_player_hitbox_area_entered(area):
+	print_debug("Area entered")
+	in_enemy_range = true
+	print_debug("Are we in enemy range? -> " + str(in_enemy_range))
+	# enemyAttackTimer.start()
 	# need to improve
-	if area.is_in_group("Enemy"):
-		in_enemy_range = true
-		enemyAttackTimer.start()
+	# if area.is_in_group("Enemy"):
+	#	in_enemy_range = true
+	#	enemyAttackTimer.start()
 
 func _on_player_hitbox_area_exited(area):
-		if area.is_in_group("Enemy"):
-			in_enemy_range = false
-
-func _on_player_hitbox_body_entered(body):
-	# need to improve
-	if body.is_in_group("Enemy"):
-		in_enemy_range = true
-		enemyAttackTimer.start()
+	print_debug("Area exited")
+	in_enemy_range = false
+	print_debug("Are we in enemy range? -> " + str(in_enemy_range))

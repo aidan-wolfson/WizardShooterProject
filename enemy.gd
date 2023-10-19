@@ -32,7 +32,8 @@ func _physics_process(delta):
 
 func move():
 	velocity = Vector2.ZERO
-	velocity += (global_position.direction_to(player.position) * move_speed)
+	if player != null:
+		velocity += (global_position.direction_to(player.position) * move_speed)
 	# look_at(player.position)
 	move_and_slide()
 

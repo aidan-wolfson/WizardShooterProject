@@ -18,5 +18,5 @@ func Update(delta):
 		map_Vector2_Array.set(map_Vector2_Array.find(vector), result)
 	
 	var player = get_tree().get_root().get_node("PlayerTesting").find_child("Player", true, true)
-	if !(is_player_outside_map(player.global_position, map_Vector2_Array)): # Function defined in "GameState" class
+	if player and !(is_player_outside_map(player.global_position, map_Vector2_Array)): # Function defined in "GameState" class
 		Transition.emit(self, "towerstate") #Signal to GameStateMachine to swap to "gamemapstate"
