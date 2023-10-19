@@ -6,6 +6,7 @@ extends CharacterBody2D
 @export var MAX_SPEED = 300
 @export var ACCELERATION = 15000
 @export var FRICTION = 1200
+@export var is_alive : bool = true
 
 @export var PROJECTILE: PackedScene = preload("res://projectiles/projectile.tscn")
 @export var in_enemy_range : bool
@@ -16,16 +17,19 @@ extends CharacterBody2D
 @onready var _animation_player = $AnimationPlayer
 @onready var spriteNode = $Sprite2D
 
+signal player_died
+
 func _physics_process(delta):
-	move(delta)
-	animationHandler()
-	if Input.is_action_just_pressed("action_attack") and attackTimer.is_stopped():
-		var projectile_dir = self.global_position.direction_to(get_global_mouse_position())
-		fire_projectile(projectile_dir)
-	
-	if in_enemy_range and enemyAttackTimer.is_stopped():
-		receiveDamage(10)
-		enemyAttackTimer.start()
+	if is_alive:
+		move(delta)
+		animationHandler()
+		if Input.is_action_just_pressed("action_attack") and attackTimer.is_stopped():
+			var projectile_dir = self.global_position.direction_to(get_global_mouse_position())
+			fire_projectile(projectile_dir)
+		
+		if in_enemy_range and enemyAttackTimer.is_stopped():
+			receiveDamage(10)
+			enemyAttackTimer.start()
 	
 
 func get_input_axis():
@@ -102,7 +106,16 @@ func animationHandler():
 	_animation_player.advance(0)
 
 func die():
-	queue_free()
+	is_alive = false
+	#play death animation
+	_animation_player.play("Die")
+	await _animation_player.animation_finished
+	#wait 3 seconds
+	print_debug("Player died! Waiting 3 seconds...")
+	await get_tree().create_timer(3.0).timeout
+	#emit death signal
+	emit_signal("player_died")
+	#queue_free()
 
 func _on_player_hitbox_area_entered(area):
 	print_debug("Area entered")

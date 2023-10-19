@@ -8,7 +8,6 @@ radius = 65.4
 
 [sub_resource type="Animation" id="Animation_lc5xa"]
 resource_name = "Die"
-loop_mode = 2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
