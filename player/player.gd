@@ -27,9 +27,6 @@ func _physics_process(delta):
 			var projectile_dir = self.global_position.direction_to(get_global_mouse_position())
 			fire_projectile(projectile_dir)
 		
-		if in_enemy_range and enemyAttackTimer.is_stopped():
-			receiveDamage(10)
-			enemyAttackTimer.start()
 	
 
 func get_input_axis():
@@ -121,11 +118,6 @@ func _on_player_hitbox_area_entered(area):
 	print_debug("Area entered")
 	in_enemy_range = true
 	print_debug("Are we in enemy range? -> " + str(in_enemy_range))
-	# enemyAttackTimer.start()
-	# need to improve
-	# if area.is_in_group("Enemy"):
-	#	in_enemy_range = true
-	#	enemyAttackTimer.start()
 
 func _on_player_hitbox_area_exited(area):
 	print_debug("Area exited")

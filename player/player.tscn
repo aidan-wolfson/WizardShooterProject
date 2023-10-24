@@ -185,11 +185,11 @@ libraries = {
 "": SubResource("AnimationLibrary_8snk2")
 }
 
-[node name="player_hitbox" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 4
+[node name="player_hitbox" type="Area2D" parent="." groups=["Player"]]
+collision_layer = 2
+collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="player_hitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player_hitbox" groups=["Player"]]
 shape = SubResource("CircleShape2D_83m5b")
 
 [connection signal="area_entered" from="player_hitbox" to="." method="_on_player_hitbox_area_entered"]

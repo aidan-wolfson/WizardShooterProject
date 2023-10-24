@@ -5,7 +5,7 @@ extends CharacterBody2D
 @export var move_speed : float = 30
 @export var move_dir : Vector2
 @export var damage : int
-@export var in_attack_range : bool = false
+@export var in_attack_range : bool
 
 @export var receives_knockback: bool = true
 @export var knockback_modifier: float = 0.1
@@ -25,10 +25,15 @@ var motion : Vector2
 func _ready():
 	start_pos = global_position
 	target_pos = start_pos + move_dir
+	in_attack_range = false
 
 func _physics_process(delta):
 	move()
 	animationHandler()
+	if player.is_alive:
+		if in_attack_range and enemyAttackTimer.is_stopped():
+			player.receiveDamage(damage)
+			enemyAttackTimer.start()
 
 func move():
 	velocity = Vector2.ZERO
@@ -73,9 +78,18 @@ func receiveKnockback(damage_source_pos: Vector2, received_damage: int):
 		global_position += knockback
 
 func _on_hitbox_area_entered(area):
+	if area.is_in_group("Player"):
+		# attack the player
+		print_debug("Player entered enemy hitbox area")
+		in_attack_range = true
 	if area.is_in_group("Projectile"):
+		# getting hit by projectile
 		var damage = area.damage # damage being dealt to enemy
 		receiveKnockback(area.global_position, damage) 
 		receiveDamage(damage)
 		print_debug("enemy hit for " + str(damage) + " damage!")
-		
+
+func _on_enemy_hitbox_area_exited(area):
+	if area.is_in_group("Player"):
+		print_debug("Player out of range")
+		in_attack_range = false
