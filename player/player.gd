@@ -18,6 +18,7 @@ extends CharacterBody2D
 @onready var spriteNode = $Sprite2D
 
 signal player_died
+signal health_changed
 
 func _physics_process(delta):
 	if is_alive:
@@ -55,9 +56,9 @@ func apply_movement(accel):
 
 func receiveDamage(dmg: int):
 	CURRENT_HP -= dmg
+	health_changed.emit()
 	if CURRENT_HP <= 0:
 		die()
-	
 	# damage flash effect
 	spriteNode.modulate = Color.DARK_RED
 	await get_tree().create_timer(0.15).timeout
