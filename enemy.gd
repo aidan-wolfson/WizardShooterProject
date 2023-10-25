@@ -13,6 +13,7 @@ extends CharacterBody2D
 @onready var _animation_player = $AnimationPlayer
 @onready var spriteNode = $Sprite2D
 @onready var enemyAttackTimer = $AttackTimer
+@onready var damageNumber = $DamagePopLocation
 #@onready var hitbox = $Area2D
 @onready var player = (get_tree().get_root().get_node("PlayerTesting")).find_child("Player", true, true)
 # animationPlayer.play("idle")
@@ -61,6 +62,8 @@ func receiveDamage(dmg: int):
 	CURRENT_HP -= dmg
 	if CURRENT_HP <= 0:
 		die()
+	# damage number popup
+	damageNumber.popup(dmg)
 	
 	# damage flash effect
 	spriteNode.modulate = Color.DARK_RED

@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://dc0u13xkwaixs"]
+[gd_scene load_steps=11 format=3 uid="uid://dc0u13xkwaixs"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_xh2xk"]
 [ext_resource type="Texture2D" uid="uid://bufshn5ho12sm" path="res://Art/mystic_woods_free_2.1/sprites/characters/slime.png" id="2_fifwq"]
+[ext_resource type="Script" path="res://enemy/DamagePop.gd" id="3_1gpos"]
+[ext_resource type="PackedScene" uid="uid://dfqiir6dolnm1" path="res://UI/damage_numbers.tscn" id="4_vlggv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ytau"]
 radius = 51.52
@@ -96,6 +98,11 @@ libraries = {
 
 [node name="AttackTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="DamagePopLocation" type="Marker2D" parent="."]
+position = Vector2(0, -22.895)
+script = ExtResource("3_1gpos")
+damage_node = ExtResource("4_vlggv")
 
 [connection signal="area_entered" from="enemy_hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="enemy_hitbox" to="." method="_on_enemy_hitbox_area_exited"]
