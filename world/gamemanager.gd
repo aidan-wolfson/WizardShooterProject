@@ -10,7 +10,6 @@ func _ready():
 	if player:
 		player.player_died.connect(handle_player_loss)
 
-
 func handle_player_loss():
 	var game_over = GameOverScreen.instantiate()
 	add_child(game_over)
