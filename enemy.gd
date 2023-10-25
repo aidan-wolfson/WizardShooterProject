@@ -6,6 +6,7 @@ extends CharacterBody2D
 @export var move_dir : Vector2
 @export var damage : int
 @export var in_attack_range : bool
+@export var is_alive : bool
 
 @export var receives_knockback: bool = true
 @export var knockback_modifier: float = 0.1
@@ -14,6 +15,7 @@ extends CharacterBody2D
 @onready var spriteNode = $Sprite2D
 @onready var enemyAttackTimer = $AttackTimer
 @onready var damageNumber = $DamagePopLocation
+@onready var hitbox = $enemy_hitbox
 #@onready var hitbox = $Area2D
 @onready var player = (get_tree().get_root().get_node("PlayerTesting")).find_child("Player", true, true)
 # animationPlayer.play("idle")
@@ -27,14 +29,16 @@ func _ready():
 	start_pos = global_position
 	target_pos = start_pos + move_dir
 	in_attack_range = false
+	is_alive = true
 
 func _physics_process(delta):
-	move()
-	animationHandler()
-	if player.is_alive:
-		if in_attack_range and enemyAttackTimer.is_stopped():
-			player.receiveDamage(damage)
-			enemyAttackTimer.start()
+	if is_alive:
+		move()
+		animationHandler()
+		if player.is_alive:
+			if in_attack_range and enemyAttackTimer.is_stopped():
+				player.receiveDamage(damage)
+				enemyAttackTimer.start()
 
 func move():
 	velocity = Vector2.ZERO
@@ -56,12 +60,19 @@ func animationHandler():
 		_animation_player.play("idle")
 
 func die():
+	is_alive = false
+	hitbox.collision_layer = 0
+	hitbox.collision_mask = 0
+	_animation_player.play("death")
+	await _animation_player.animation_finished
+	await get_tree().create_timer(1.0).timeout
 	queue_free()
 
 func receiveDamage(dmg: int):
 	CURRENT_HP -= dmg
 	if CURRENT_HP <= 0:
 		die()
+	
 	# damage number popup
 	damageNumber.popup(dmg)
 	
