@@ -64,5 +64,4 @@ script = ExtResource("2_1dmra")
 position = Vector2(-1, -118.5)
 shape = SubResource("RectangleShape2D_dhx8x")
 
-[connection signal="area_entered" from="Teleporter" to="Teleporter" method="_on_area_entered"]
 [connection signal="body_entered" from="Teleporter" to="Teleporter" method="_on_body_entered"]

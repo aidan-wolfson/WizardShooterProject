@@ -1,14 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://btt3vuqwo1fv3"]
+[gd_scene load_steps=12 format=3 uid="uid://btt3vuqwo1fv3"]
 
 [ext_resource type="PackedScene" uid="uid://cs6lw0g4ggesh" path="res://player/player.tscn" id="1_5kal6"]
+[ext_resource type="Script" path="res://world/gamemanager.gd" id="1_p7lgs"]
 [ext_resource type="PackedScene" uid="uid://baw5ofuy3pojv" path="res://Tower/tower.tscn" id="2_ueur2"]
 [ext_resource type="PackedScene" uid="uid://rhsiplt44huo" path="res://gamemap/gamemap.tscn" id="3_d4x4x"]
 [ext_resource type="Script" path="res://GameStateMachine.gd" id="4_pibje"]
 [ext_resource type="Script" path="res://GamemapState.gd" id="5_7s6hx"]
 [ext_resource type="Script" path="res://TowerState.gd" id="6_afkqw"]
 [ext_resource type="PackedScene" uid="uid://cggu3lnct1rqi" path="res://WaveMachine/wave_machine.tscn" id="7_r5gcj"]
+[ext_resource type="Script" path="res://world/HealthBar.gd" id="9_kge14"]
+[ext_resource type="Texture2D" uid="uid://8o5caoohuv2s" path="res://Art/UI assets/healthbarUnder.png" id="10_r32he"]
+[ext_resource type="Texture2D" uid="uid://d2tm25juykq8r" path="res://Art/UI assets/healthbarProgress.png" id="11_khuf2"]
 
 [node name="PlayerTesting" type="Node2D"]
+script = ExtResource("1_p7lgs")
 
 [node name="Player" parent="." instance=ExtResource("1_5kal6")]
 position = Vector2(-2, 1)
@@ -32,3 +37,24 @@ script = ExtResource("5_7s6hx")
 script = ExtResource("6_afkqw")
 
 [node name="WaveMachine" parent="." instance=ExtResource("7_r5gcj")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="CanvasLayer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 23.0
+offset_top = -104.0
+offset_right = 104.0
+offset_bottom = -89.0
+grow_vertical = 0
+scale = Vector2(3.44457, 4.72)
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 4
+stretch_margin_right = 4
+stretch_margin_bottom = 4
+texture_under = ExtResource("10_r32he")
+texture_progress = ExtResource("11_khuf2")
+script = ExtResource("9_kge14")
