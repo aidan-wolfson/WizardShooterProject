@@ -156,6 +156,7 @@ radius = 80.64
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(0.7, 0.7)
 collision_layer = 2
+collision_mask = 17
 script = ExtResource("1_mpsnb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -187,7 +188,7 @@ libraries = {
 
 [node name="player_hitbox" type="Area2D" parent="." groups=["Player"]]
 collision_layer = 2
-collision_mask = 0
+collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player_hitbox" groups=["Player"]]
 shape = SubResource("CircleShape2D_83m5b")

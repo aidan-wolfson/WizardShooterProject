@@ -116,11 +116,8 @@ func die():
 	#queue_free()
 
 func _on_player_hitbox_area_entered(area):
-	print_debug("Area entered")
-	in_enemy_range = true
-	print_debug("Are we in enemy range? -> " + str(in_enemy_range))
+	if area.is_in_group("Projectile"):
+		print_debug("Ouchy, an enemy projectile hit us")
 
 func _on_player_hitbox_area_exited(area):
-	print_debug("Area exited")
-	in_enemy_range = false
-	print_debug("Are we in enemy range? -> " + str(in_enemy_range))
+	pass

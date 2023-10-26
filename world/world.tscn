@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://btt3vuqwo1fv3"]
+[gd_scene load_steps=13 format=3 uid="uid://btt3vuqwo1fv3"]
 
 [ext_resource type="PackedScene" uid="uid://cs6lw0g4ggesh" path="res://player/player.tscn" id="1_5kal6"]
 [ext_resource type="Script" path="res://world/gamemanager.gd" id="1_p7lgs"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://world/HealthBar.gd" id="9_kge14"]
 [ext_resource type="Texture2D" uid="uid://8o5caoohuv2s" path="res://Art/UI assets/healthbarUnder.png" id="10_r32he"]
 [ext_resource type="Texture2D" uid="uid://d2tm25juykq8r" path="res://Art/UI assets/healthbarProgress.png" id="11_khuf2"]
+[ext_resource type="PackedScene" uid="uid://nfoecirqy0aw" path="res://enemy/WitchEnemy.tscn" id="12_vkixs"]
 
 [node name="PlayerTesting" type="Node2D"]
 script = ExtResource("1_p7lgs")
@@ -58,3 +59,6 @@ stretch_margin_bottom = 4
 texture_under = ExtResource("10_r32he")
 texture_progress = ExtResource("11_khuf2")
 script = ExtResource("9_kge14")
+
+[node name="WitchEnemy" parent="." instance=ExtResource("12_vkixs")]
+position = Vector2(527, -429)
