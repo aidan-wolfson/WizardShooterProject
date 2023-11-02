@@ -1,7 +1,5 @@
 extends Marker2D
 
-
-
 @export var damage_node : PackedScene
 @export var DAMAGE_INDICATOR: PackedScene = preload("res://UI/damage_numbers.tscn")
 

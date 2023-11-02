@@ -1,7 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://nfoecirqy0aw"]
+[gd_scene load_steps=12 format=3 uid="uid://nfoecirqy0aw"]
 
 [ext_resource type="Script" path="res://enemy/WitchEnemy.gd" id="1_lo3f3"]
-[ext_resource type="Texture2D" uid="uid://bufshn5ho12sm" path="res://Art/mystic_woods_free_2.1/sprites/characters/slime.png" id="2_yyadf"]
+[ext_resource type="Texture2D" uid="uid://d2cfqgjxh1o2e" path="res://Art/2D Pixel Dungeon Asset Pack/Character_animation/monsters_idle/vampire/v2/vampire_v2_1.png" id="2_kfkc1"]
 [ext_resource type="Script" path="res://enemy/DamagePop.gd" id="3_qar8j"]
 [ext_resource type="PackedScene" uid="uid://dfqiir6dolnm1" path="res://UI/damage_numbers.tscn" id="4_4budy"]
 
@@ -11,77 +11,48 @@ radius = 51.52
 [sub_resource type="CircleShape2D" id="CircleShape2D_jx0ly"]
 radius = 73.21
 
-[sub_resource type="Animation" id="Animation_yophd"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
-[sub_resource type="Animation" id="Animation_8kobs"]
+[sub_resource type="Animation" id="Animation_j20sr"]
 resource_name = "idle"
-length = 0.4
 loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3]
-}
 
-[sub_resource type="Animation" id="Animation_4hb3u"]
-resource_name = "walk"
-length = 0.7
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [14, 15, 16, 17, 18, 19, 20]
-}
-
-[sub_resource type="Animation" id="Animation_fvnyh"]
+[sub_resource type="Animation" id="Animation_gp53a"]
 resource_name = "death"
 length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [28, 29, 30, 31, 32]
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -1.5708]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_r0f13"]
+[sub_resource type="Animation" id="Animation_vib8v"]
+resource_name = "walk"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -10), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_18jmt"]
 _data = {
-"RESET": SubResource("Animation_yophd"),
-"death": SubResource("Animation_fvnyh"),
-"idle": SubResource("Animation_8kobs"),
-"walk": SubResource("Animation_4hb3u")
+"death": SubResource("Animation_gp53a"),
+"idle": SubResource("Animation_j20sr"),
+"walk": SubResource("Animation_vib8v")
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yj23m"]
@@ -94,9 +65,7 @@ script = ExtResource("1_lo3f3")
 
 [node name="Sprite2D" type="Sprite2D" parent="." groups=["Enemy"]]
 scale = Vector2(6.325, 6.325)
-texture = ExtResource("2_yyadf")
-hframes = 7
-vframes = 5
+texture = ExtResource("2_kfkc1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Enemy"]]
 shape = SubResource("CircleShape2D_4ytau")
@@ -108,9 +77,9 @@ collision_mask = 10
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_hitbox"]
 shape = SubResource("CircleShape2D_jx0ly")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." groups=["Enemy"]]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_r0f13")
+"": SubResource("AnimationLibrary_18jmt")
 }
 
 [node name="AttackTimer" type="Timer" parent="."]
@@ -129,5 +98,6 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_attack_range"]
 shape = SubResource("CircleShape2D_yj23m")
 
+[connection signal="area_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_area_entered"]
 [connection signal="area_entered" from="enemy_attack_range" to="." method="_on_enemy_attack_range_area_entered"]
 [connection signal="area_exited" from="enemy_attack_range" to="." method="_on_enemy_attack_range_area_exited"]
