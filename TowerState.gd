@@ -2,8 +2,7 @@ extends GameState
 class_name TowerState
 
 func Enter():
-	pass
-
+	get_tree().get_root().get_node("PlayerTesting/Game_Space").find_child("TileMap", true, true).newMap()
 
 func Update(delta):
 	#Grabs array of vectors of each "MapArea" Node for the specified scene
@@ -17,6 +16,7 @@ func Update(delta):
 	
 	var player = get_tree().get_root().get_node("PlayerTesting").find_child("Player", true, true)
 	if !(is_player_outside_map(player.global_position, map_Vector2_Array)): # Function defined in "GameState" class
+		#print("Player is outside!!!")
 		Transition.emit(self, "gamemapstate") #Signal to GameStateMachine to swap to "gamemapstate"
 
 

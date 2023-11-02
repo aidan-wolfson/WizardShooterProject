@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dt21q2u3c4lgl"]
+
+[ext_resource type="Script" path="res://gamemap/Map Objects/Chest.gd" id="1_uo0w0"]
+[ext_resource type="Texture2D" uid="uid://dxbtpv3uwmuvc" path="res://Art/mystic_woods_free_2.1/sprites/objects/chest_01.png" id="2_oonxc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2nvsh"]
+size = Vector2(2.61866, 2.61866)
+
+[node name="Node2D" type="Node2D"]
+z_index = 1
+scale = Vector2(3.055, 3.055)
+script = ExtResource("1_uo0w0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.19, 0.19)
+texture = ExtResource("2_oonxc")
+hframes = 4
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_2nvsh")

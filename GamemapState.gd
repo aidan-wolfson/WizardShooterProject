@@ -1,14 +1,17 @@
 extends GameState
 class_name GamemapState
 
-func Enter():
-	#tell wave object to start next wave
-	pass
+var timer = Timer.new()
 
+func Enter():
+	print("Entering Gamemap GameState")
+	#tell wave object to start next wave
+	get_tree().get_root().get_node("PlayerTesting/WaveMachine").find_child("InactiveState", true, true).becomeActive()
 
 func Update(delta):
+	
 	#Grabs array of vectors of each "MapArea" Node for the specified scene
-	var mapAreaNode = (get_tree().get_root().get_node("PlayerTesting/Game_Space")).find_child("CollisionPolygon2D", true, true)
+	var mapAreaNode = (get_tree().get_root().get_node("PlayerTesting/Game_Space")).find_child("MapArea", true, true)
 	var map_Vector2_Array = mapAreaNode.get_polygon()
 	
 	#Translates the local scale and position of vectors to global scale and position
@@ -19,4 +22,5 @@ func Update(delta):
 	
 	var player = get_tree().get_root().get_node("PlayerTesting").find_child("Player", true, true)
 	if !(is_player_outside_map(player.global_position, map_Vector2_Array)): # Function defined in "GameState" class
+		#print("Player is outside!!!")
 		Transition.emit(self, "towerstate") #Signal to GameStateMachine to swap to "gamemapstate"
