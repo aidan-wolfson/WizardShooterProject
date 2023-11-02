@@ -11,10 +11,6 @@ radius = 51.52
 [sub_resource type="CircleShape2D" id="CircleShape2D_jx0ly"]
 radius = 73.21
 
-[sub_resource type="Animation" id="Animation_j20sr"]
-resource_name = "idle"
-loop_mode = 1
-
 [sub_resource type="Animation" id="Animation_gp53a"]
 resource_name = "death"
 length = 0.5
@@ -30,6 +26,10 @@ tracks/0/keys = {
 "update": 0,
 "values": [0.0, -1.5708]
 }
+
+[sub_resource type="Animation" id="Animation_j20sr"]
+resource_name = "idle"
+loop_mode = 1
 
 [sub_resource type="Animation" id="Animation_vib8v"]
 resource_name = "walk"
