@@ -56,7 +56,7 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yj23m"]
-radius = 326.05
+radius = 450.0
 
 [node name="WitchEnemy" type="CharacterBody2D" groups=["Enemy"]]
 collision_layer = 0

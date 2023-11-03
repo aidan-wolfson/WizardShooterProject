@@ -24,7 +24,7 @@ func _physics_process(delta):
 	if is_alive:
 		move(delta)
 		animationHandler()
-		if Input.is_action_just_pressed("action_attack") and attackTimer.is_stopped():
+		if Input.is_action_pressed("action_attack") and attackTimer.is_stopped():
 			var projectile_dir = self.global_position.direction_to(get_global_mouse_position())
 			fire_projectile(projectile_dir)
 		
@@ -118,6 +118,8 @@ func die():
 func _on_player_hitbox_area_entered(area):
 	if area.is_in_group("Projectile"):
 		print_debug("Ouchy, an enemy projectile hit us")
+		var damage = area.damage # damage being dealt by projectile
+		receiveDamage(damage)
 
 func _on_player_hitbox_area_exited(area):
 	pass
