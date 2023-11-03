@@ -5,8 +5,15 @@ var types : Array = ["Interior", "Exterior"]
 var allLayers : Dictionary
 var placed_objects : Array
 var bounds : Array
-var min_distance: float = 10.0
-var maxObjects : int = 10
+var min_distance: float = 2200
+var maxObjects : int = 100
+
+var objectTypes = {
+	"Chest" = load("res://gamemap/Map Objects/Chest.tscn"),
+	"Tree" = load("res://gamemap/Map Objects/Tree.tscn"),
+	"Pot" = load("res://gamemap/Map Objects/pot.tscn")
+}
+
 
 func _ready():
 	var map_Vector2_Array = (get_tree().get_root().get_node("PlayerTesting/Game_Space")).find_child("MapArea", true, true).get_polygon()
@@ -15,8 +22,8 @@ func _ready():
 	for vector in map_Vector2_Array:
 		if vector.x > 0 && vector.y < 0: # filter for top right corner
 			var result = vector
-			bounds.append(result) 
-			bounds.append(result * -1) # add bottom left corner
+			bounds.append(result * 0.95) 
+			bounds.append(result * -0.95) # add bottom left corner
 
 	print("Bounds: " + str(bounds))
 
@@ -53,16 +60,14 @@ func generateMap(type):
 		generateObjects(type)
 
 func generateObjects(type):
-	
-	var object_scene = load("res://gamemap/Map Objects/Chest.tscn")
+
 	if type == "Interior":
 		# implement walls
 		pass 
+	
 	var random_position = Vector2(randf_range(bounds[1].x, bounds[0].x), randf_range(bounds[0].y, bounds[1].y))
-	print("Attempting to generate obj...")
 	var attempts = 0
-	while is_too_close(random_position) and attempts < 10:
-		print("Failed to generate obj")
+	while (!is_too_close(random_position)) and attempts < 10:
 		random_position = Vector2(
 		randf_range(bounds[1].x, bounds[0].x),
 		randf_range(bounds[0].y, bounds[1].y)
@@ -70,14 +75,17 @@ func generateObjects(type):
 		attempts += 1
 
 	if attempts < 10:
-		print("Succeeded to generate obj at postion: " + str(random_position))
-		var instance = object_scene.instantiate()
+		var instance = objectTypes[objectTypes.keys()[randi_range(0, (objectTypes.keys().size())-1)]].instantiate()
+#		if type == "Interior":
+#			pass
+#		elif type == "Exterior":
+#			instance = objectTypes["Tree"].instantiate()
 		instance.global_position = random_position
 		add_child(instance)
 		placed_objects.append(instance)
-	
+
 func is_too_close(pos):
 	for obj in placed_objects:
 		if pos.distance_to(obj.global_position) < min_distance:
-			return true
-	return false
+			return false
+	return true

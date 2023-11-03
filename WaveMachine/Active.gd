@@ -85,7 +85,7 @@ func getRandomPoint():
 		max_y = max(max_y, vector.y)
 
 	# Apply buffer to the coordinates so enemies don't spawn on top of walls
-	var buffer = 100
+	var buffer = 300
 	min_x += buffer
 	min_y += buffer
 	max_x -= buffer

@@ -10,17 +10,18 @@ size = Vector2(23, 15)
 radius = 22.0
 
 [node name="TreeObj" type="Node2D"]
+scale = Vector2(0.65, 0.65)
 script = ExtResource("1_tm7l3")
 
 [node name="Tree" type="Sprite2D" parent="."]
 texture = ExtResource("2_okyor")
 
-[node name="Area2D" type="Area2D" parent="Tree"]
+[node name="StaticBody2D" type="StaticBody2D" parent="Tree"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Tree/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tree/StaticBody2D"]
 position = Vector2(0.5, 18.5)
 shape = SubResource("RectangleShape2D_pksuc")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Tree/Area2D"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Tree/StaticBody2D"]
 position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_utds4")

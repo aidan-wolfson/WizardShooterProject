@@ -1,23 +1,93 @@
-[gd_scene load_steps=4 format=3 uid="uid://dt21q2u3c4lgl"]
+[gd_scene load_steps=8 format=3 uid="uid://dt21q2u3c4lgl"]
 
 [ext_resource type="Script" path="res://gamemap/Map Objects/Chest.gd" id="1_uo0w0"]
 [ext_resource type="Texture2D" uid="uid://dxbtpv3uwmuvc" path="res://Art/mystic_woods_free_2.1/sprites/objects/chest_01.png" id="2_oonxc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2nvsh"]
-size = Vector2(2.61866, 2.61866)
+size = Vector2(13.748, 12.766)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8gu81"]
+radius = 19.3154
+
+[sub_resource type="Animation" id="Animation_8ivxi"]
+resource_name = "Open"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_ip5f0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xpdrg"]
+_data = {
+"Open": SubResource("Animation_8ivxi"),
+"RESET": SubResource("Animation_ip5f0")
+}
 
 [node name="Node2D" type="Node2D"]
 z_index = 1
-scale = Vector2(3.055, 3.055)
+scale = Vector2(0.66, 0.66)
 script = ExtResource("1_uo0w0")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.19, 0.19)
 texture = ExtResource("2_oonxc")
 hframes = 4
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+disable_mode = 1
+collision_layer = 15
+collision_mask = 15
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-scale = Vector2(1, 1)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-9.36505e-07, -0.490999)
 shape = SubResource("RectangleShape2D_2nvsh")
+
+[node name="InRange" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InRange"]
+shape = SubResource("CircleShape2D_8gu81")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -6.0
+offset_top = -12.0
+offset_right = 62.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.19, 0.19)
+text = "Press 'E'"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xpdrg")
+}
+
+[connection signal="area_entered" from="InRange" to="." method="_on_in_range_area_entered"]
+[connection signal="area_exited" from="InRange" to="." method="_on_in_range_area_exited"]
+[connection signal="input_event" from="InRange" to="." method="_on_in_range_input_event"]

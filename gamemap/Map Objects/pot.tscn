@@ -1,0 +1,79 @@
+[gd_scene load_steps=7 format=3 uid="uid://drq3ikpyiu64x"]
+
+[ext_resource type="Script" path="res://gamemap/Map Objects/pot.gd" id="1_bwn1u"]
+[ext_resource type="Texture2D" uid="uid://cj6ntigk41my7" path="res://Art/mystic_woods_free_2.1/sprites/objects/Destructible Objects Sprite Sheet.png" id="1_tf1wj"]
+
+[sub_resource type="Animation" id="Animation_rm1ja"]
+resource_name = "Destruct"
+length = 0.55
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [35, 37, 38, 39, 40, 41]
+}
+
+[sub_resource type="Animation" id="Animation_kvkhn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [35]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qfemo"]
+_data = {
+"Destruct": SubResource("Animation_rm1ja"),
+"RESET": SubResource("Animation_kvkhn")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_by5vw"]
+radius = 8.0
+
+[node name="Node2D" type="Node2D"]
+scale = Vector2(0.61, 0.61)
+script = ExtResource("1_bwn1u")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(-1, -2)
+texture = ExtResource("1_tf1wj")
+hframes = 7
+vframes = 12
+frame = 35
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Sprite")
+libraries = {
+"": SubResource("AnimationLibrary_qfemo")
+}
+
+[node name="WalkingHB" type="StaticBody2D" parent="."]
+collision_layer = 15
+collision_mask = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WalkingHB"]
+shape = SubResource("CircleShape2D_by5vw")
+disabled = true
+
+[node name="ShootingHB" type="Area2D" parent="."]
+collision_layer = 15
+collision_mask = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShootingHB"]
+shape = SubResource("CircleShape2D_by5vw")
+
+[connection signal="area_entered" from="ShootingHB" to="." method="_on_shooting_hb_area_entered"]
