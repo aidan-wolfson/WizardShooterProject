@@ -19,7 +19,7 @@ emission_box_extents = Vector3(1, 1, 1)
 particle_flag_disable_z = true
 spread = 180.0
 flatness = 0.3
-gravity = Vector3(0, 98, 0)
+gravity = Vector3(-98, 0, 0)
 initial_velocity_max = 15.54
 orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
@@ -50,13 +50,15 @@ texture = ExtResource("2_68h08")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 material = SubResource("CanvasItemMaterial_utb50")
+position = Vector2(-21, 0)
 emitting = false
 amount = 10
 process_material = SubResource("ParticleProcessMaterial_iv8mo")
 texture = ExtResource("3_3kff6")
-one_shot = true
-explosiveness = 0.65
+lifetime = 1.5
+preprocess = 0.75
 randomness = 0.5
+local_coords = true
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered" flags=18]
 [connection signal="body_entered" from="." to="." method="_on_body_entered" flags=18]
