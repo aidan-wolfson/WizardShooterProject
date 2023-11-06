@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://bdvingkh1p1al"]
+
+[ext_resource type="Script" path="res://TreeObj.gd" id="1_tm7l3"]
+[ext_resource type="Texture2D" uid="uid://ble01u68eist2" path="res://Art/mystic_woods_free_2.1/sprites/objects/Tree.png" id="2_okyor"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pksuc"]
+size = Vector2(23, 15)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_utds4"]
+radius = 22.0
+
+[node name="TreeObj" type="Node2D"]
+scale = Vector2(0.65, 0.65)
+script = ExtResource("1_tm7l3")
+
+[node name="Tree" type="Sprite2D" parent="."]
+texture = ExtResource("2_okyor")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Tree"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tree/StaticBody2D"]
+position = Vector2(0.5, 18.5)
+shape = SubResource("RectangleShape2D_pksuc")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Tree/StaticBody2D"]
+position = Vector2(0, -8)
+shape = SubResource("CircleShape2D_utds4")

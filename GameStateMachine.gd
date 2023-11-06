@@ -11,12 +11,13 @@ func _ready():
 	
 	current_state = states["TowerState".to_lower()]
 	current_state.Enter()
+	
 
 func _process(delta):
 	current_state.Update(delta)
 
 func on_child_transition(state, new_state_name):
-	var new_state = states.get(new_state_name.to_lower())
+	var new_state = states[new_state_name.to_lower()]
 	current_state.Exit()
 	current_state = new_state
 	current_state.Enter()

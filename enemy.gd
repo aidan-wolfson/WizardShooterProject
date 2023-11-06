@@ -63,6 +63,7 @@ func attack():
 			enemyAttackTimer.start()
 
 func die():
+	player.changeVariable("Money", 1)
 	is_alive = false
 	hitbox.collision_layer = 0
 	hitbox.collision_mask = 0

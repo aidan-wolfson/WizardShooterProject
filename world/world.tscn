@@ -1,4 +1,6 @@
+
 [gd_scene load_steps=13 format=3 uid="uid://btt3vuqwo1fv3"]
+
 
 [ext_resource type="PackedScene" uid="uid://cs6lw0g4ggesh" path="res://player/player.tscn" id="1_5kal6"]
 [ext_resource type="Script" path="res://world/gamemanager.gd" id="1_p7lgs"]
@@ -8,10 +10,13 @@
 [ext_resource type="Script" path="res://GamemapState.gd" id="5_7s6hx"]
 [ext_resource type="Script" path="res://TowerState.gd" id="6_afkqw"]
 [ext_resource type="PackedScene" uid="uid://cggu3lnct1rqi" path="res://WaveMachine/wave_machine.tscn" id="7_r5gcj"]
+
+[ext_resource type="PackedScene" uid="uid://d3o4nw8iai7rc" path="res://Tower/Upgrades/UpgradePylon.tscn" id="8_x4w88"]
 [ext_resource type="Script" path="res://world/HealthBar.gd" id="9_kge14"]
 [ext_resource type="Texture2D" uid="uid://8o5caoohuv2s" path="res://Art/UI assets/healthbarUnder.png" id="10_r32he"]
 [ext_resource type="Texture2D" uid="uid://d2tm25juykq8r" path="res://Art/UI assets/healthbarProgress.png" id="11_khuf2"]
 [ext_resource type="PackedScene" uid="uid://nfoecirqy0aw" path="res://enemy/WitchEnemy.tscn" id="12_vkixs"]
+
 
 [node name="PlayerTesting" type="Node2D"]
 script = ExtResource("1_p7lgs")
@@ -39,6 +44,21 @@ script = ExtResource("6_afkqw")
 
 [node name="WaveMachine" parent="." instance=ExtResource("7_r5gcj")]
 
+
+[node name="AttackPylon" parent="." instance=ExtResource("8_x4w88")]
+position = Vector2(-649, -662)
+scale = Vector2(8.56, 8.56)
+
+[node name="AttkSpeedPylon" parent="." instance=ExtResource("8_x4w88")]
+position = Vector2(-550, -859)
+scale = Vector2(8.56, 8.56)
+type = "Attack Speed"
+
+[node name="SpeedPylon" parent="." instance=ExtResource("8_x4w88")]
+position = Vector2(-742, -856)
+scale = Vector2(8.56, 8.56)
+type = "Speed"
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="CanvasLayer"]
@@ -62,3 +82,4 @@ script = ExtResource("9_kge14")
 
 [node name="WitchEnemy" parent="." instance=ExtResource("12_vkixs")]
 position = Vector2(527, -429)
+

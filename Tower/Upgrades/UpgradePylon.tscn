@@ -1,0 +1,84 @@
+[gd_scene load_steps=9 format=3 uid="uid://d3o4nw8iai7rc"]
+
+[ext_resource type="Script" path="res://Tower/Upgrades/UpgradePylon.gd" id="1_uwfpg"]
+[ext_resource type="Texture2D" uid="uid://dukqxoeak35r8" path="res://Art/2D Pixel Dungeon Asset Pack/items and trap_animation/torch/candlestick_1_1.png" id="2_ow01g"]
+[ext_resource type="Texture2D" uid="uid://p2hyh58p0mx6" path="res://Art/2D Pixel Dungeon Asset Pack/items and trap_animation/torch/candlestick_1_2.png" id="3_shso3"]
+[ext_resource type="Texture2D" uid="uid://ce8p0l05jted0" path="res://Art/2D Pixel Dungeon Asset Pack/items and trap_animation/torch/candlestick_1_3.png" id="4_uxtay"]
+[ext_resource type="Texture2D" uid="uid://cb60ns6pixdgn" path="res://Art/2D Pixel Dungeon Asset Pack/items and trap_animation/torch/candlestick_1_4.png" id="5_k6mwp"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tpq8g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ow01g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_shso3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_uxtay")
+}, {
+"duration": 1.8,
+"texture": ExtResource("5_k6mwp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_uxtay")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_shso3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ctvrn"]
+radius = 3.78788
+height = 12.4436
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8gu81"]
+radius = 19.3154
+
+[node name="Node2D" type="Node2D"]
+z_index = 1
+script = ExtResource("1_uwfpg")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_tpq8g")
+autoplay = "default"
+frame_progress = 0.667949
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+disable_mode = 1
+collision_layer = 15
+collision_mask = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-0.757576, 2.86911)
+scale = Vector2(1, 1)
+shape = SubResource("CapsuleShape2D_ctvrn")
+
+[node name="InRange" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InRange"]
+visible = false
+shape = SubResource("CircleShape2D_8gu81")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -10.0
+offset_top = -16.0
+offset_right = 90.0
+offset_bottom = 31.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.19, 0.19)
+bbcode_enabled = true
+
+[connection signal="area_entered" from="InRange" to="." method="_on_in_range_area_entered"]
+[connection signal="area_exited" from="InRange" to="." method="_on_in_range_area_exited"]
+[connection signal="input_event" from="InRange" to="." method="_on_in_range_input_event"]
