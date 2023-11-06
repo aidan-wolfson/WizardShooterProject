@@ -49,6 +49,7 @@ func animationHandler():
 		_animation_player.play("idle")
 
 func die():
+	player.changeVariable("Money", 1)
 	queue_free()
 
 func receiveDamage(dmg: int):
@@ -76,5 +77,5 @@ func _on_hitbox_area_entered(area):
 		var damage = area.damage # damage being dealt to enemy
 		receiveKnockback(area.global_position, damage) 
 		receiveDamage(damage)
-		print_debug("enemy hit for " + str(damage) + " damage!")
+		#print_debug("enemy hit for " + str(damage) + " damage!")
 		

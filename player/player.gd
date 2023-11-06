@@ -9,12 +9,16 @@ extends CharacterBody2D
 
 @export var PROJECTILE: PackedScene = preload("res://projectiles/projectile.tscn")
 @export var in_enemy_range : bool = false
+@onready var projectileDamage : int = 10
 
 @onready var axis = Vector2.ZERO
 @onready var attackTimer = $AttackTimer
 @onready var enemyAttackTimer = $EnemyAttackTimer
 @onready var _animation_player = $AnimationPlayer
 @onready var spriteNode = $Sprite2D
+
+@onready var money : int = 0
+
 
 func _physics_process(delta):
 	move(delta)
@@ -118,3 +122,23 @@ func _on_player_hitbox_body_entered(body):
 	if body.is_in_group("Enemy"):
 		in_enemy_range = true
 		enemyAttackTimer.start()
+		
+func changeVariable(varName, amount):
+	var newAmount
+	if varName == "Money":
+		self.money += amount
+		newAmount = self.money
+	elif varName == "projectileDamage":
+		self.projectileDamage += amount
+		newAmount = self.projectileDamage
+	elif varName == "Attack Speed":
+		if $AttackTimer.wait_time > 0:
+			$AttackTimer.wait_time += amount
+		newAmount = $AttackTimer.wait_time
+	elif varName == "Speed":
+		self.MAX_SPEED += amount
+		newAmount = self.MAX_SPEED
+	print("Variable " + str(name) + " changed by: " + str(amount) + ". New amount: " + str(newAmount))
+	return newAmount
+
+

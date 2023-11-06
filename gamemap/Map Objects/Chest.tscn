@@ -90,4 +90,3 @@ libraries = {
 
 [connection signal="area_entered" from="InRange" to="." method="_on_in_range_area_entered"]
 [connection signal="area_exited" from="InRange" to="." method="_on_in_range_area_exited"]
-[connection signal="input_event" from="InRange" to="." method="_on_in_range_input_event"]
