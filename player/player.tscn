@@ -4,11 +4,12 @@
 [ext_resource type="Texture2D" uid="uid://b4s8h0dm0306i" path="res://Art/mystic_woods_free_2.1/sprites/characters/player.png" id="2_ccy6s"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sg52c"]
-radius = 63.1163
+
+radius = 65.4
 
 [sub_resource type="Animation" id="Animation_lc5xa"]
 resource_name = "Die"
-loop_mode = 2
+
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -152,12 +153,14 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_83m5b"]
-radius = 62.8734
+
+radius = 80.64
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
 scale = Vector2(0.7, 0.7)
 collision_layer = 2
+collision_mask = 17
 script = ExtResource("1_mpsnb")
 MAX_SPEED = 400
 
@@ -180,6 +183,7 @@ wait_time = 0.5
 one_shot = true
 
 [node name="EnemyAttackTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Sprite2D")
@@ -187,14 +191,12 @@ libraries = {
 "": SubResource("AnimationLibrary_8snk2")
 }
 
-[node name="player_hitbox" type="Area2D" parent="."]
+[node name="player_hitbox" type="Area2D" parent="." groups=["Player"]]
 collision_layer = 2
-collision_mask = 5
+collision_mask = 16
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="player_hitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player_hitbox" groups=["Player"]]
 shape = SubResource("CircleShape2D_83m5b")
 
 [connection signal="area_entered" from="player_hitbox" to="." method="_on_player_hitbox_area_entered"]
 [connection signal="area_exited" from="player_hitbox" to="." method="_on_player_hitbox_area_exited"]
-[connection signal="body_entered" from="player_hitbox" to="." method="_on_player_hitbox_body_entered"]
-[connection signal="body_exited" from="player_hitbox" to="." method="_on_player_hitbox_body_exited"]

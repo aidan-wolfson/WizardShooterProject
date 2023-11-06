@@ -6,10 +6,13 @@ extends CharacterBody2D
 @export var MAX_SPEED = 300
 @export var ACCELERATION = 15000
 @export var FRICTION = 1200
+@export var is_alive : bool = true
 
 @export var PROJECTILE: PackedScene = preload("res://projectiles/projectile.tscn")
+
 @export var in_enemy_range : bool = false
 @onready var projectileDamage : int = 10
+
 
 @onready var axis = Vector2.ZERO
 @onready var attackTimer = $AttackTimer
@@ -17,18 +20,21 @@ extends CharacterBody2D
 @onready var _animation_player = $AnimationPlayer
 @onready var spriteNode = $Sprite2D
 
+
 @onready var money : int = 0
+
+signal player_died
+signal health_changed
 
 
 func _physics_process(delta):
-	move(delta)
-	animationHandler()
-	if Input.is_action_just_pressed("action_attack") and attackTimer.is_stopped():
-		var projectile_dir = self.global_position.direction_to(get_global_mouse_position())
-		fire_projectile(projectile_dir)
-	
-	if in_enemy_range and enemyAttackTimer.is_stopped():
-		receiveDamage(10)
+	if is_alive:
+		move(delta)
+		animationHandler()
+		if Input.is_action_pressed("action_attack") and attackTimer.is_stopped():
+			var projectile_dir = self.global_position.direction_to(get_global_mouse_position())
+			fire_projectile(projectile_dir)
+		
 	
 
 func get_input_axis():
@@ -57,9 +63,9 @@ func apply_movement(accel):
 
 func receiveDamage(dmg: int):
 	CURRENT_HP -= dmg
+	health_changed.emit()
 	if CURRENT_HP <= 0:
 		die()
-	
 	# damage flash effect
 	spriteNode.modulate = Color.DARK_RED
 	await get_tree().create_timer(0.15).timeout
@@ -105,13 +111,22 @@ func animationHandler():
 	_animation_player.advance(0)
 
 func die():
-	queue_free()
+	is_alive = false
+	#play death animation
+	_animation_player.play("Die")
+	await _animation_player.animation_finished
+	#wait 3 seconds
+	print_debug("Player died! Waiting 3 seconds...")
+	await get_tree().create_timer(3.0).timeout
+	#emit death signal
+	emit_signal("player_died")
+	#queue_free()
 
 func _on_player_hitbox_area_entered(area):
-	# need to improve
-	if area.is_in_group("Enemy"):
-		in_enemy_range = true
-		enemyAttackTimer.start()
+	if area.is_in_group("Projectile"):
+		print_debug("Ouchy, an enemy projectile hit us")
+		var damage = area.damage # damage being dealt by projectile
+		receiveDamage(damage)
 
 func _on_player_hitbox_area_exited(area):
 		if area.is_in_group("Enemy"):
@@ -140,5 +155,4 @@ func changeVariable(varName, amount):
 		newAmount = self.MAX_SPEED
 	print("Variable " + str(name) + " changed by: " + str(amount) + ". New amount: " + str(newAmount))
 	return newAmount
-
 
