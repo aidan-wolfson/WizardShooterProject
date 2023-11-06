@@ -6,6 +6,7 @@ extends CharacterBody2D
 @export var move_dir : Vector2
 @export var damage : int
 @export var in_attack_range : bool
+@export var is_alive : bool
 
 @export var receives_knockback: bool = true
 @export var knockback_modifier: float = 0.1
@@ -13,6 +14,8 @@ extends CharacterBody2D
 @onready var _animation_player = $AnimationPlayer
 @onready var spriteNode = $Sprite2D
 @onready var enemyAttackTimer = $AttackTimer
+@onready var damageNumber = $DamagePopLocation
+@onready var hitbox = $enemy_hitbox
 #@onready var hitbox = $Area2D
 @onready var player = (get_tree().get_root().get_node("PlayerTesting")).find_child("Player", true, true)
 # animationPlayer.play("idle")
@@ -26,14 +29,13 @@ func _ready():
 	start_pos = global_position
 	target_pos = start_pos + move_dir
 	in_attack_range = false
+	is_alive = true
 
 func _physics_process(delta):
-	move()
-	animationHandler()
-	if player.is_alive:
-		if in_attack_range and enemyAttackTimer.is_stopped():
-			player.receiveDamage(damage)
-			enemyAttackTimer.start()
+	if is_alive:
+		move()
+		animationHandler()
+		attack()
 
 func move():
 	velocity = Vector2.ZERO
@@ -54,13 +56,28 @@ func animationHandler():
 	elif velocity == Vector2.ZERO:
 		_animation_player.play("idle")
 
+func attack():
+	if player.is_alive:
+		if in_attack_range and enemyAttackTimer.is_stopped():
+			player.receiveDamage(damage)
+			enemyAttackTimer.start()
+
 func die():
+	is_alive = false
+	hitbox.collision_layer = 0
+	hitbox.collision_mask = 0
+	_animation_player.play("death")
+	await _animation_player.animation_finished
+	await get_tree().create_timer(1.0).timeout
 	queue_free()
 
 func receiveDamage(dmg: int):
 	CURRENT_HP -= dmg
 	if CURRENT_HP <= 0:
 		die()
+	
+	# damage number popup
+	damageNumber.popup(dmg)
 	
 	# damage flash effect
 	spriteNode.modulate = Color.DARK_RED
@@ -78,10 +95,10 @@ func receiveKnockback(damage_source_pos: Vector2, received_damage: int):
 		global_position += knockback
 
 func _on_hitbox_area_entered(area):
-	if area.is_in_group("Player"):
-		# attack the player
-		print_debug("Player entered enemy hitbox area")
-		in_attack_range = true
+	#if area.is_in_group("Player"):
+	#	# attack the player
+	#	print_debug("Player entered enemy hitbox area")
+	#	in_attack_range = true
 	if area.is_in_group("Projectile"):
 		# getting hit by projectile
 		var damage = area.damage # damage being dealt to enemy
@@ -90,6 +107,18 @@ func _on_hitbox_area_entered(area):
 		print_debug("enemy hit for " + str(damage) + " damage!")
 
 func _on_enemy_hitbox_area_exited(area):
+	pass
+	#if area.is_in_group("Player"):
+	#	print_debug("Player out of range")
+	#	in_attack_range = false
+
+func _on_enemy_attack_range_area_entered(area):
+	if area.is_in_group("Player"):
+		# attack the player
+		print_debug("Player entered enemy hitbox area")
+		in_attack_range = true
+
+func _on_enemy_attack_range_area_exited(area):
 	if area.is_in_group("Player"):
 		print_debug("Player out of range")
 		in_attack_range = false

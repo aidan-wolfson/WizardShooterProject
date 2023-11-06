@@ -1,7 +1,8 @@
 extends WaveState
 class_name ActiveState
 
-var enemyObj = preload("res://enemy/Enemy.tscn") 
+var slime = preload("res://enemy/Enemy.tscn") 
+var witch = preload("res://enemy/WitchEnemy.tscn")
 
 var currentWave : int = 0
 var enemyList : Array 
@@ -30,8 +31,7 @@ func calculateWavePoints(waveCount):
 func buyEnemies(points):
 	var enemiesPurchased = []
 	var enemies = {
-	"Goblin": 1,
-	"Skeleton": 2,
+	"Slime": 1,
 	"Witch": 3
 	}
 	var affordableEnemies = []
@@ -57,7 +57,11 @@ func spawnEnemies(enemyList):
 	while len(enemyList) > 0:
 		var enemy = enemyList[0]
 		await(get_tree().create_timer(1.0).timeout)
-		var newEnemy = enemyObj.instantiate()
+		var newEnemy
+		if enemy == "Slime":
+			newEnemy = slime.instantiate()
+		elif enemy == "Witch":
+			newEnemy = witch.instantiate()
 		get_tree().get_root().get_node("PlayerTesting").add_child(newEnemy)
 		newEnemy.add_to_group("ENEMIES")
 		newEnemy.global_position = getRandomPoint()

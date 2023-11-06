@@ -1,13 +1,15 @@
-[gd_scene load_steps=9 format=3 uid="uid://dc0u13xkwaixs"]
+[gd_scene load_steps=13 format=3 uid="uid://dc0u13xkwaixs"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_xh2xk"]
 [ext_resource type="Texture2D" uid="uid://bufshn5ho12sm" path="res://Art/mystic_woods_free_2.1/sprites/characters/slime.png" id="2_fifwq"]
+[ext_resource type="Script" path="res://enemy/DamagePop.gd" id="3_1gpos"]
+[ext_resource type="PackedScene" uid="uid://dfqiir6dolnm1" path="res://UI/damage_numbers.tscn" id="4_vlggv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ytau"]
 radius = 51.52
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4p52p"]
-radius = 68.4
+radius = 81.27
 
 [sub_resource type="Animation" id="Animation_yophd"]
 length = 0.001
@@ -22,6 +24,22 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_fvnyh"]
+resource_name = "death"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [28, 29, 30, 31, 32]
 }
 
 [sub_resource type="Animation" id="Animation_8kobs"]
@@ -61,12 +79,16 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_r0f13"]
 _data = {
 "RESET": SubResource("Animation_yophd"),
+"death": SubResource("Animation_fvnyh"),
 "idle": SubResource("Animation_8kobs"),
 "walk": SubResource("Animation_4hb3u")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_fah7b"]
+radius = 79.53
+
 [node name="Enemy" type="CharacterBody2D" groups=["Enemy"]]
-collision_layer = 4
+collision_layer = 0
 collision_mask = 11
 script = ExtResource("1_xh2xk")
 move_speed = 80.0
@@ -97,5 +119,19 @@ libraries = {
 [node name="AttackTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="DamagePopLocation" type="Marker2D" parent="."]
+position = Vector2(0, -22.895)
+script = ExtResource("3_1gpos")
+damage_node = ExtResource("4_vlggv")
+
+[node name="enemy_attack_range" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_attack_range"]
+shape = SubResource("CircleShape2D_fah7b")
+
 [connection signal="area_entered" from="enemy_hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="enemy_hitbox" to="." method="_on_enemy_hitbox_area_exited"]
+[connection signal="area_entered" from="enemy_attack_range" to="." method="_on_enemy_attack_range_area_entered"]
+[connection signal="area_exited" from="enemy_attack_range" to="." method="_on_enemy_attack_range_area_exited"]
