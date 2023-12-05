@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://fjwpcu0w4s50"
+path="res://.godot/imported/Enemy-Ranged-Fire (with charge).wav-8a3d661fb2a716e0e8e0e8a479070210.sample"
+
+[deps]
+
+source_file="res://Audio/SFX/Enemies/Enemy-Ranged-Fire (with charge).wav"
+dest_files=["res://.godot/imported/Enemy-Ranged-Fire (with charge).wav-8a3d661fb2a716e0e8e0e8a479070210.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

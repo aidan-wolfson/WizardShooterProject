@@ -2,6 +2,8 @@ extends "res://enemy.gd"
 
 @export var PROJECTILE: PackedScene = preload("res://projectiles/witch_projectile.tscn")
 
+@onready var rangedAttackSound = $attackSound
+
 func attack():
 	if player.is_alive:
 		if in_attack_range and enemyAttackTimer.is_stopped():
@@ -19,6 +21,7 @@ func fire_projectile(projectile_direction: Vector2):
 		var projectile_rotation = projectile_direction.angle()
 		projectile.rotation = projectile_rotation #set projectile rot to point at mouse pos
 		
+		rangedAttackSound.play()
 		enemyAttackTimer.start()
 
 func _on_enemy_attack_range_area_entered(area):

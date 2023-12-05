@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://nfoecirqy0aw"]
+[gd_scene load_steps=13 format=3 uid="uid://nfoecirqy0aw"]
 
 [ext_resource type="Script" path="res://enemy/WitchEnemy.gd" id="1_lo3f3"]
 [ext_resource type="Texture2D" uid="uid://d2cfqgjxh1o2e" path="res://Art/2D Pixel Dungeon Asset Pack/Character_animation/monsters_idle/vampire/v2/vampire_v2_1.png" id="2_kfkc1"]
 [ext_resource type="Script" path="res://enemy/DamagePop.gd" id="3_qar8j"]
 [ext_resource type="PackedScene" uid="uid://dfqiir6dolnm1" path="res://UI/damage_numbers.tscn" id="4_4budy"]
+[ext_resource type="AudioStream" uid="uid://c2ihug14ijkmo" path="res://Audio/SFX/Enemies/Enemy-Ranged-Fire (no charge).wav" id="5_bpfw3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ytau"]
 radius = 51.52
@@ -97,6 +98,10 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_attack_range"]
 shape = SubResource("CircleShape2D_yj23m")
+
+[node name="attackSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_bpfw3")
+volume_db = -5.0
 
 [connection signal="area_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_area_entered"]
 [connection signal="area_entered" from="enemy_attack_range" to="." method="_on_enemy_attack_range_area_entered"]
