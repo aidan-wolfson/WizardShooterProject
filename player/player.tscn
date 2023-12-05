@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://cs6lw0g4ggesh"]
+[gd_scene load_steps=15 format=3 uid="uid://cs6lw0g4ggesh"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_mpsnb"]
 [ext_resource type="Texture2D" uid="uid://b4s8h0dm0306i" path="res://Art/mystic_woods_free_2.1/sprites/characters/player.png" id="2_ccy6s"]
+[ext_resource type="AudioStream" uid="uid://4c1dhouqntxi" path="res://Audio/SFX/Spells/Primary-Spell-Fire-1.wav" id="3_doeua"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sg52c"]
 radius = 65.4
@@ -194,6 +195,10 @@ collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player_hitbox" groups=["Player"]]
 shape = SubResource("CircleShape2D_83m5b")
+
+[node name="SpellSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_doeua")
+volume_db = -5.2
 
 [connection signal="area_entered" from="player_hitbox" to="." method="_on_player_hitbox_area_entered"]
 [connection signal="area_exited" from="player_hitbox" to="." method="_on_player_hitbox_area_exited"]

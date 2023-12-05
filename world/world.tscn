@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://btt3vuqwo1fv3"]
+[gd_scene load_steps=15 format=3 uid="uid://btt3vuqwo1fv3"]
 
 [ext_resource type="PackedScene" uid="uid://cs6lw0g4ggesh" path="res://player/player.tscn" id="1_5kal6"]
 [ext_resource type="Script" path="res://world/gamemanager.gd" id="1_p7lgs"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://world/HealthBar.gd" id="9_kge14"]
 [ext_resource type="Texture2D" uid="uid://8o5caoohuv2s" path="res://Art/UI assets/healthbarUnder.png" id="10_r32he"]
 [ext_resource type="Texture2D" uid="uid://d2tm25juykq8r" path="res://Art/UI assets/healthbarProgress.png" id="11_khuf2"]
+[ext_resource type="AudioStream" uid="uid://daixg8onlw5bd" path="res://Audio/Music/The Heart of Magic (test 2).wav" id="14_6yj8m"]
 [ext_resource type="PackedScene" uid="uid://b13we5qjxd5v5" path="res://npc/robot-npc.tscn" id="14_i7yt8"]
 
 [node name="PlayerTesting" type="Node2D"]
@@ -77,3 +78,10 @@ script = ExtResource("9_kge14")
 
 [node name="NPC-Manabot" parent="." instance=ExtResource("14_i7yt8")]
 position = Vector2(-344.58, 0)
+
+[node name="Jukebox" type="Node2D" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Jukebox"]
+stream = ExtResource("14_6yj8m")
+volume_db = -9.657
+autoplay = true

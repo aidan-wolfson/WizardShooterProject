@@ -19,6 +19,7 @@ extends CharacterBody2D
 @onready var enemyAttackTimer = $EnemyAttackTimer
 @onready var _animation_player = $AnimationPlayer
 @onready var spriteNode = $Sprite2D
+@onready var spellAudioPlayer = $SpellSFX
 
 
 @onready var money : int = 0
@@ -82,6 +83,7 @@ func fire_projectile(projectile_direction: Vector2):
 		var projectile_rotation = projectile_direction.angle()
 		projectile.rotation = projectile_rotation #set projectile rot to point at mouse pos
 		
+		spellAudioPlayer.play()
 		attackTimer.start()
 		
 func animationHandler():
