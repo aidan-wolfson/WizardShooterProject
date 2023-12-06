@@ -1,6 +1,4 @@
-
-[gd_scene load_steps=13 format=3 uid="uid://btt3vuqwo1fv3"]
-
+[gd_scene load_steps=15 format=3 uid="uid://btt3vuqwo1fv3"]
 
 [ext_resource type="PackedScene" uid="uid://cs6lw0g4ggesh" path="res://player/player.tscn" id="1_5kal6"]
 [ext_resource type="Script" path="res://world/gamemanager.gd" id="1_p7lgs"]
@@ -10,13 +8,12 @@
 [ext_resource type="Script" path="res://GamemapState.gd" id="5_7s6hx"]
 [ext_resource type="Script" path="res://TowerState.gd" id="6_afkqw"]
 [ext_resource type="PackedScene" uid="uid://cggu3lnct1rqi" path="res://WaveMachine/wave_machine.tscn" id="7_r5gcj"]
-
 [ext_resource type="PackedScene" uid="uid://d3o4nw8iai7rc" path="res://Tower/Upgrades/UpgradePylon.tscn" id="8_x4w88"]
 [ext_resource type="Script" path="res://world/HealthBar.gd" id="9_kge14"]
 [ext_resource type="Texture2D" uid="uid://8o5caoohuv2s" path="res://Art/UI assets/healthbarUnder.png" id="10_r32he"]
 [ext_resource type="Texture2D" uid="uid://d2tm25juykq8r" path="res://Art/UI assets/healthbarProgress.png" id="11_khuf2"]
-[ext_resource type="PackedScene" uid="uid://nfoecirqy0aw" path="res://enemy/WitchEnemy.tscn" id="12_vkixs"]
-
+[ext_resource type="AudioStream" uid="uid://daixg8onlw5bd" path="res://Audio/Music/The Heart of Magic (test 2).wav" id="14_6yj8m"]
+[ext_resource type="PackedScene" uid="uid://b13we5qjxd5v5" path="res://npc/robot-npc.tscn" id="14_i7yt8"]
 
 [node name="PlayerTesting" type="Node2D"]
 script = ExtResource("1_p7lgs")
@@ -43,7 +40,6 @@ script = ExtResource("5_7s6hx")
 script = ExtResource("6_afkqw")
 
 [node name="WaveMachine" parent="." instance=ExtResource("7_r5gcj")]
-
 
 [node name="AttackPylon" parent="." instance=ExtResource("8_x4w88")]
 position = Vector2(-649, -662)
@@ -80,6 +76,12 @@ texture_under = ExtResource("10_r32he")
 texture_progress = ExtResource("11_khuf2")
 script = ExtResource("9_kge14")
 
-[node name="WitchEnemy" parent="." instance=ExtResource("12_vkixs")]
-position = Vector2(527, -429)
+[node name="NPC-Manabot" parent="." instance=ExtResource("14_i7yt8")]
+position = Vector2(-344.58, 0)
 
+[node name="Jukebox" type="Node2D" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Jukebox"]
+stream = ExtResource("14_6yj8m")
+volume_db = -9.657
+autoplay = true
