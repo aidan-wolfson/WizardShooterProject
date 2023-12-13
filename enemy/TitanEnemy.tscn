@@ -1,0 +1,127 @@
+[gd_scene load_steps=12 format=3 uid="uid://dry3rtmcvqmh5"]
+
+[ext_resource type="Texture2D" uid="uid://d25atfc8iwqbf" path="res://Art/sprites/Titan-Placeholder.png" id="1_hwbi7"]
+[ext_resource type="Script" path="res://enemy/TitanEnemy.gd" id="1_ixm51"]
+[ext_resource type="Script" path="res://enemy/DamagePop.gd" id="2_w10st"]
+[ext_resource type="PackedScene" uid="uid://dfqiir6dolnm1" path="res://UI/damage_numbers.tscn" id="3_5fpeu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xu8d3"]
+radius = 100.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_h7ad6"]
+radius = 122.94
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ium0q"]
+radius = 500.0
+
+[sub_resource type="Animation" id="Animation_y2ep3"]
+resource_name = "walk"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 0.707107),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -11)]
+}
+
+[sub_resource type="Animation" id="Animation_m00tp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_fc3a8"]
+resource_name = "death"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1.1892),
+"update": 0,
+"values": [0.0, -1.5708]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yrle5"]
+_data = {
+"RESET": SubResource("Animation_m00tp"),
+"death": SubResource("Animation_fc3a8"),
+"walk": SubResource("Animation_y2ep3")
+}
+
+[node name="TitanEnemy" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 11
+script = ExtResource("1_ixm51")
+move_speed = 15.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(6.06, 6.06)
+texture = ExtResource("1_hwbi7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xu8d3")
+
+[node name="enemy_hitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_hitbox"]
+shape = SubResource("CircleShape2D_h7ad6")
+
+[node name="DamagePopLocation" type="Marker2D" parent="."]
+position = Vector2(0, -22.895)
+script = ExtResource("2_w10st")
+damage_node = ExtResource("3_5fpeu")
+
+[node name="enemy_attack_range" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_attack_range"]
+shape = SubResource("CircleShape2D_ium0q")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "walk"
+libraries = {
+"": SubResource("AnimationLibrary_yrle5")
+}
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="attackSound" type="AudioStreamPlayer2D" parent="."]
+
+[connection signal="area_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_area_entered"]
