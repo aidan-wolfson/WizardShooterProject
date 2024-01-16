@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3 uid="uid://ck7121a48gcdi"]
+
+[ext_resource type="Script" path="res://world/gamemanager.gd" id="1_b2mbt"]
+[ext_resource type="PackedScene" uid="uid://cs6lw0g4ggesh" path="res://player/player.tscn" id="2_d1bem"]
+[ext_resource type="PackedScene" uid="uid://rhsiplt44huo" path="res://gamemap/gamemap.tscn" id="4_8fnuy"]
+[ext_resource type="Script" path="res://WaveMachine/Active.gd" id="7_ixwux"]
+[ext_resource type="Texture2D" uid="uid://8o5caoohuv2s" path="res://Art/UI assets/healthbarUnder.png" id="10_3cg34"]
+[ext_resource type="Texture2D" uid="uid://d2tm25juykq8r" path="res://Art/UI assets/healthbarProgress.png" id="11_umr6t"]
+[ext_resource type="Script" path="res://world/HealthBar.gd" id="12_aqq5n"]
+
+[node name="PlayerTesting" type="Node2D"]
+script = ExtResource("1_b2mbt")
+
+[node name="Player" parent="." instance=ExtResource("2_d1bem")]
+scale = Vector2(1, 1)
+MAX_SPEED = 600
+FRICTION = 5000
+
+[node name="Game_Space" parent="." instance=ExtResource("4_8fnuy")]
+scale = Vector2(10, 10)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="CanvasLayer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 23.0
+offset_top = -104.0
+offset_right = 104.0
+offset_bottom = -89.0
+grow_vertical = 0
+scale = Vector2(3.44457, 4.72)
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 4
+stretch_margin_right = 4
+stretch_margin_bottom = 4
+texture_under = ExtResource("10_3cg34")
+texture_progress = ExtResource("11_umr6t")
+script = ExtResource("12_aqq5n")
+
+[node name="WaveMachine" type="Node" parent="."]
+script = ExtResource("7_ixwux")

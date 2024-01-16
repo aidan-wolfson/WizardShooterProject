@@ -105,7 +105,7 @@ func _on_hitbox_area_entered(area):
 		var damage = area.damage # damage being dealt to enemy
 		receiveKnockback(area.global_position, damage) 
 		receiveDamage(damage)
-		print_debug("enemy hit for " + str(damage) + " damage!")
+		#print_debug("enemy hit for " + str(damage) + " damage!")
 
 func _on_enemy_hitbox_area_exited(area):
 	pass
@@ -116,10 +116,10 @@ func _on_enemy_hitbox_area_exited(area):
 func _on_enemy_attack_range_area_entered(area):
 	if area.is_in_group("Player"):
 		# attack the player
-		print_debug("Player entered enemy hitbox area")
+		#print_debug("Player entered enemy hitbox area")
 		in_attack_range = true
 
 func _on_enemy_attack_range_area_exited(area):
 	if area.is_in_group("Player"):
-		print_debug("Player out of range")
+		#print_debug("Player out of range")
 		in_attack_range = false
