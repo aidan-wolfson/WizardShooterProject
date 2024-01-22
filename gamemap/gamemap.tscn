@@ -176,7 +176,6 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MapArea"]
 position = Vector2(-3.63798e-12, -8.00001)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_2yiyl")
 
 [node name="Walls" type="CharacterBody2D" parent="."]

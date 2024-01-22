@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://ck7121a48gcdi"]
+[gd_scene load_steps=9 format=3 uid="uid://ck7121a48gcdi"]
 
 [ext_resource type="Script" path="res://world/gamemanager.gd" id="1_b2mbt"]
 [ext_resource type="PackedScene" uid="uid://cs6lw0g4ggesh" path="res://player/player.tscn" id="2_d1bem"]
 [ext_resource type="PackedScene" uid="uid://rhsiplt44huo" path="res://gamemap/gamemap.tscn" id="4_8fnuy"]
+[ext_resource type="PackedScene" uid="uid://nybw7kveovfw" path="res://UI/upgrade_screen.tscn" id="7_gfart"]
 [ext_resource type="Script" path="res://WaveMachine/Active.gd" id="7_ixwux"]
 [ext_resource type="Texture2D" uid="uid://8o5caoohuv2s" path="res://Art/UI assets/healthbarUnder.png" id="10_3cg34"]
 [ext_resource type="Texture2D" uid="uid://d2tm25juykq8r" path="res://Art/UI assets/healthbarProgress.png" id="11_umr6t"]
@@ -39,6 +40,9 @@ stretch_margin_bottom = 4
 texture_under = ExtResource("10_3cg34")
 texture_progress = ExtResource("11_umr6t")
 script = ExtResource("12_aqq5n")
+
+[node name="UpgradeScreen" parent="CanvasLayer" instance=ExtResource("7_gfart")]
+visible = false
 
 [node name="WaveMachine" type="Node" parent="."]
 script = ExtResource("7_ixwux")
