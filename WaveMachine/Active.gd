@@ -4,13 +4,18 @@ class_name ActiveState
 var slime = preload("res://enemy/Enemy.tscn") 
 var witch = preload("res://enemy/WitchEnemy.tscn")
 
+@onready var upgradeScreen = get_tree().get_root().get_node("PlayerTesting/CanvasLayer/UpgradeScreen")
+
 var currentWave : int = 0
 var enemyList : Array 
+
+var alreadyEnded : bool = false
 
 func _ready():
 	enter()
 
 func enter():
+	alreadyEnded = false
 	currentWave += 1
 	print_debug("Starting wave " + str(currentWave))
 	enemyList = buyEnemies(calculateWavePoints(currentWave))
@@ -18,14 +23,16 @@ func enter():
 	spawnEnemies(enemyList)
 
 func end():
+	upgradeScreen.startUpgrade()
 	print_debug("Wave ended, starting new wave")
-	enter()
+	
 
 # Every frame, this checks if there are no remaining spawned enemies (node group 
 #"ENEMIES") and there are no enemies that haven't spawned yet (enemyList == 0).
 #If both are at 0, it sends a signal to the Wavemachine to switch to InactiveState
 func _process(delta):
-	if get_tree().get_nodes_in_group("ENEMIES").size() == 0 and len(enemyList) == 0:
+	if get_tree().get_nodes_in_group("ENEMIES").size() == 0 and len(enemyList) == 0 and !alreadyEnded:
+		alreadyEnded = true
 		end()
 
 #This formula is simple af, and can be tweaked later
