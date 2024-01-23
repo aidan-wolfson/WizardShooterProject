@@ -155,6 +155,6 @@ func changeVariable(varName, amount):
 	elif varName == "Speed":
 		self.MAX_SPEED += amount
 		newAmount = self.MAX_SPEED
-	print("Variable " + str(name) + " changed by: " + str(amount) + ". New amount: " + str(newAmount))
+	#print("Variable " + str(name) + " changed by: " + str(amount) + ". New amount: " + str(newAmount))
 	return newAmount
 
