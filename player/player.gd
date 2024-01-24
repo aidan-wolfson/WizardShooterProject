@@ -8,6 +8,7 @@ extends CharacterBody2D
 @export var ACCELERATION = 15000
 @export var FRICTION = 1200
 @export var is_alive : bool = true
+@export var dodgeZoom : Vector2 = Vector2(0.75,0.75)
 
 @export var PROJECTILE: PackedScene = preload("res://projectiles/projectile.tscn")
 
@@ -23,6 +24,7 @@ extends CharacterBody2D
 @onready var _animation_player = $AnimationPlayer
 @onready var spriteNode = $Sprite2D
 @onready var spellAudioPlayer = $SpellSFX
+@onready var hitbox = $player_hitbox
 @onready var camera = $Camera2D
 
 
@@ -72,12 +74,23 @@ func move(delta):
 	move_and_slide()
 
 func dodge_state(delta):
-	camera.adjustZoom(delta, Vector2(0.75,0.75))
+	# set collisions
+	self.collision_layer = 0
+	hitbox.collision_layer = 0
+	hitbox.collision_mask = 1
+	
+	camera.adjustZoom(delta, dodgeZoom)
 	velocity = rollVector * DODGE_SPEED
 	move_and_slide()
 	if dodgeTimer.is_stopped():
+		# reset collisions
+		self.collision_layer = 2
+		hitbox.collision_layer = 2
+		hitbox.collision_mask = 17
+		
 		player_state = state.RUNGUN
 		spriteNode.modulate = Color.WHITE
+		
 
 func apply_friction(amount):
 	if velocity.length() > amount:
