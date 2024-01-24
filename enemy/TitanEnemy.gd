@@ -7,3 +7,7 @@ func _on_enemy_hitbox_area_entered(area):
 		receiveKnockback(area.global_position, damage) 
 		receiveDamage(damage)
 		print_debug("enemy hit for " + str(damage) + " damage!")
+
+func animationHandler():
+	pass
+	##Overrides enemy base function, used to prevent flipping the sprite
