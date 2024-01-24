@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bxo6cqk624i2b"
+path="res://.godot/imported/Dodge SFX (V1).wav-b6630cef305cdd7ff91813317dda4fce.sample"
+
+[deps]
+
+source_file="res://Audio/SFX/Player/Dodge SFX (V1).wav"
+dest_files=["res://.godot/imported/Dodge SFX (V1).wav-b6630cef305cdd7ff91813317dda4fce.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -6,7 +6,11 @@ extends CharacterBody2D
 @export var MAX_SPEED = 300
 @export var ACCELERATION = 15000
 @export var FRICTION = 1200
+@export var DODGE_SPEED = 900
+@export var DODGE_STAMINA = 100
+@export var DODGE_RECHARGEVAL = 10
 @export var is_alive : bool = true
+@export var dodgeZoom : Vector2 = Vector2(0.75,0.75)
 
 @export var PROJECTILE: PackedScene = preload("res://projectiles/projectile.tscn")
 
@@ -15,28 +19,62 @@ extends CharacterBody2D
 
 
 @onready var axis = Vector2.ZERO
+@onready var rollVector = Vector2.ZERO
 @onready var attackTimer = $AttackTimer
+@onready var dodgeTimer = $DodgeTimer
+@onready var dodgeRechargeTimer = $DodgeRecharge
 @onready var enemyAttackTimer = $EnemyAttackTimer
 @onready var _animation_player = $AnimationPlayer
 @onready var spriteNode = $Sprite2D
 @onready var spellAudioPlayer = $SpellSFX
+@onready var dodgeAudioPlayer = $DodgeSFX
+@onready var hitbox = $player_hitbox
+@onready var camera = $Camera2D
 
 
 @onready var money : int = 0
 
 signal player_died
 signal health_changed
+signal stamina_changed
 
+enum state {DODGING, SHIELDING, RUNGUN} # RUNGUN is the default state lol
+
+var player_state = state.RUNGUN
 
 func _physics_process(delta):
 	if is_alive:
-		move(delta)
-		animationHandler()
-		if Input.is_action_pressed("action_attack") and attackTimer.is_stopped():
-			var projectile_dir = self.global_position.direction_to(get_global_mouse_position())
-			fire_projectile(projectile_dir)
+		# if we're in the RUNGUN state
+		if player_state != state.DODGING:
+			camera.adjustZoom(delta, Vector2(0.8,0.8))
+			move(delta)
+			if Input.is_action_pressed("action_attack") and attackTimer.is_stopped():
+				var projectile_dir = self.global_position.direction_to(get_global_mouse_position())
+				fire_projectile(projectile_dir)
+			
+			if velocity != Vector2.ZERO and Input.is_action_just_pressed("dodge") and DODGE_STAMINA >= 50:
+				player_state = state.DODGING
+				rollVector = velocity.normalized()
+				dodgeTimer.start()
+				
+				#reduce dodge stamina
+				if DODGE_STAMINA - 50 < 0:
+					DODGE_STAMINA = 0
+				else:
+					DODGE_STAMINA -= 50
+				stamina_changed.emit()
+				
+				#play SFX
+				dodgeAudioPlayer.play()
+				
+				print_debug("we're dodging!!! Dodge Stamina is: " + str(DODGE_STAMINA))
 		
-	
+		elif player_state == state.DODGING:
+			# what do we do while dodging? well we play the dodge animation
+			dodge_state(delta)
+		
+		animationHandler()
+		dodge_recharge()
 
 func get_input_axis():
 	axis.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
@@ -51,6 +89,34 @@ func move(delta):
 		apply_movement(axis * ACCELERATION * delta)
 
 	move_and_slide()
+
+func dodge_state(delta):
+	# set collisions
+	self.collision_layer = 0
+	hitbox.collision_layer = 0
+	hitbox.collision_mask = 1
+	
+	camera.adjustZoom(delta, dodgeZoom)
+	velocity = rollVector * DODGE_SPEED
+	move_and_slide()
+	if dodgeTimer.is_stopped():
+		# reset collisions
+		self.collision_layer = 2
+		hitbox.collision_layer = 2
+		hitbox.collision_mask = 17
+		
+		player_state = state.RUNGUN
+		spriteNode.modulate = Color.WHITE
+		
+
+func dodge_recharge():
+	if dodgeRechargeTimer.is_stopped():
+		if DODGE_STAMINA + DODGE_RECHARGEVAL >= 100:
+			DODGE_STAMINA = 100
+		else: 
+			DODGE_STAMINA += DODGE_RECHARGEVAL
+		dodgeRechargeTimer.start()
+		stamina_changed.emit()
 
 func apply_friction(amount):
 	if velocity.length() > amount:
@@ -86,31 +152,39 @@ func fire_projectile(projectile_direction: Vector2):
 		spellAudioPlayer.play()
 		attackTimer.start()
 		
+		
 func animationHandler():
-	if self.axis == Vector2.ZERO:
-		_animation_player.play("RestDown")
-		get_node( "Sprite2D" ).set_flip_h( false )
-	else:
-		var directionRadians = ((self.axis).angle())
-		# Normalize radian to [0, 2π]
-		while directionRadians < 0:
-			directionRadians += 2 * PI
-		directionRadians = fmod(directionRadians, 2 * PI)
-
-		# Convert radian to direction
-		if 0 <= directionRadians and directionRadians < PI / 4:
-			_animation_player.play("WalkRight")
+	if player_state == state.RUNGUN:
+		if self.axis == Vector2.ZERO:
+			_animation_player.play("RestDown")
 			get_node( "Sprite2D" ).set_flip_h( false )
-		elif PI / 4 <= directionRadians and directionRadians < 3 * PI / 4:
-			_animation_player.play("WalkDown")
-			get_node( "Sprite2D" ).set_flip_h( false )
-		elif 3 * PI / 4 <= directionRadians and directionRadians < 5 * PI / 4:
-			_animation_player.play("WalkRight")
-			get_node( "Sprite2D" ).set_flip_h( true )
 		else:
-			_animation_player.play("WalkUp")
-			get_node( "Sprite2D" ).set_flip_h( false )
-	_animation_player.advance(0)
+			var directionRadians = ((self.axis).angle())
+			# Normalize radian to [0, 2π]
+			while directionRadians < 0:
+				directionRadians += 2 * PI
+			directionRadians = fmod(directionRadians, 2 * PI)
+
+			# Convert radian to direction
+			if 0 <= directionRadians and directionRadians < PI / 4:
+				_animation_player.play("WalkRight")
+				get_node( "Sprite2D" ).set_flip_h( false )
+			elif PI / 4 <= directionRadians and directionRadians < 3 * PI / 4:
+				_animation_player.play("WalkDown")
+				get_node( "Sprite2D" ).set_flip_h( false )
+			elif 3 * PI / 4 <= directionRadians and directionRadians < 5 * PI / 4:
+				_animation_player.play("WalkRight")
+				get_node( "Sprite2D" ).set_flip_h( true )
+			else:
+				_animation_player.play("WalkUp")
+				get_node( "Sprite2D" ).set_flip_h( false )
+		_animation_player.advance(0)
+	
+	elif player_state == state.DODGING:
+		#play animation
+		spriteNode.modulate = Color.GRAY
+		pass
+	
 
 func die():
 	is_alive = false

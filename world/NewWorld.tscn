@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://ck7121a48gcdi"]
+[gd_scene load_steps=10 format=3 uid="uid://ck7121a48gcdi"]
 
 [ext_resource type="Script" path="res://world/gamemanager.gd" id="1_b2mbt"]
 [ext_resource type="PackedScene" uid="uid://cs6lw0g4ggesh" path="res://player/player.tscn" id="2_d1bem"]
 [ext_resource type="PackedScene" uid="uid://rhsiplt44huo" path="res://gamemap/gamemap.tscn" id="4_8fnuy"]
 [ext_resource type="PackedScene" uid="uid://nybw7kveovfw" path="res://UI/upgrade_screen.tscn" id="7_gfart"]
 [ext_resource type="Script" path="res://WaveMachine/Active.gd" id="7_ixwux"]
+[ext_resource type="Script" path="res://world/StaminaBar.gd" id="8_6ral5"]
 [ext_resource type="Texture2D" uid="uid://8o5caoohuv2s" path="res://Art/UI assets/healthbarUnder.png" id="10_3cg34"]
 [ext_resource type="Texture2D" uid="uid://d2tm25juykq8r" path="res://Art/UI assets/healthbarProgress.png" id="11_umr6t"]
 [ext_resource type="Script" path="res://world/HealthBar.gd" id="12_aqq5n"]
@@ -22,7 +23,7 @@ scale = Vector2(10, 10)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="CanvasLayer"]
+[node name="HealthBar" type="TextureProgressBar" parent="CanvasLayer"]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -43,6 +44,27 @@ script = ExtResource("12_aqq5n")
 
 [node name="UpgradeScreen" parent="CanvasLayer" instance=ExtResource("7_gfart")]
 visible = false
+
+[node name="StaminaBar" type="TextureProgressBar" parent="CanvasLayer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 23.0
+offset_top = -136.0
+offset_right = 104.0
+offset_bottom = -121.0
+grow_vertical = 0
+scale = Vector2(3.42081, 2.06085)
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 4
+stretch_margin_right = 4
+stretch_margin_bottom = 4
+texture_under = ExtResource("10_3cg34")
+texture_progress = ExtResource("11_umr6t")
+tint_progress = Color(0.0784314, 0.14902, 0.760784, 1)
+script = ExtResource("8_6ral5")
+metadata/_edit_use_anchors_ = true
 
 [node name="WaveMachine" type="Node" parent="."]
 script = ExtResource("7_ixwux")
