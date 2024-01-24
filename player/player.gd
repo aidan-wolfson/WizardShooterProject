@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var CURRENT_HP = 50
 
 @export var MAX_SPEED = 300
+@export var DODGE_SPEED = 900
 @export var ACCELERATION = 15000
 @export var FRICTION = 1200
 @export var is_alive : bool = true
@@ -15,11 +16,14 @@ extends CharacterBody2D
 
 
 @onready var axis = Vector2.ZERO
+@onready var rollVector = Vector2.ZERO
 @onready var attackTimer = $AttackTimer
+@onready var dodgeTimer = $DodgeTimer
 @onready var enemyAttackTimer = $EnemyAttackTimer
 @onready var _animation_player = $AnimationPlayer
 @onready var spriteNode = $Sprite2D
 @onready var spellAudioPlayer = $SpellSFX
+@onready var camera = $Camera2D
 
 
 @onready var money : int = 0
@@ -27,16 +31,31 @@ extends CharacterBody2D
 signal player_died
 signal health_changed
 
+enum state {DODGING, SHIELDING, RUNGUN} # RUNGUN is the default state lol
+
+var player_state = state.RUNGUN
 
 func _physics_process(delta):
 	if is_alive:
-		move(delta)
-		animationHandler()
-		if Input.is_action_pressed("action_attack") and attackTimer.is_stopped():
-			var projectile_dir = self.global_position.direction_to(get_global_mouse_position())
-			fire_projectile(projectile_dir)
+		# if we're in the RUNGUN state
+		if player_state != state.DODGING:
+			camera.adjustZoom(delta, Vector2(0.8,0.8))
+			move(delta)
+			if Input.is_action_pressed("action_attack") and attackTimer.is_stopped():
+				var projectile_dir = self.global_position.direction_to(get_global_mouse_position())
+				fire_projectile(projectile_dir)
+			
+			if velocity != Vector2.ZERO and Input.is_action_just_pressed("dodge"):
+				player_state = state.DODGING
+				rollVector = velocity.normalized()
+				dodgeTimer.start()
+				print_debug("we're dodging!!! AAHHHHH. Velocity at dodge is: " + str(velocity))
 		
-	
+		elif player_state == state.DODGING:
+			# what do we do while dodging? well we play the dodge animation
+			dodge_state(delta)
+		
+		animationHandler()
 
 func get_input_axis():
 	axis.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
@@ -51,6 +70,14 @@ func move(delta):
 		apply_movement(axis * ACCELERATION * delta)
 
 	move_and_slide()
+
+func dodge_state(delta):
+	camera.adjustZoom(delta, Vector2(0.75,0.75))
+	velocity = rollVector * DODGE_SPEED
+	move_and_slide()
+	if dodgeTimer.is_stopped():
+		player_state = state.RUNGUN
+		spriteNode.modulate = Color.WHITE
 
 func apply_friction(amount):
 	if velocity.length() > amount:
@@ -87,30 +114,37 @@ func fire_projectile(projectile_direction: Vector2):
 		attackTimer.start()
 		
 func animationHandler():
-	if self.axis == Vector2.ZERO:
-		_animation_player.play("RestDown")
-		get_node( "Sprite2D" ).set_flip_h( false )
-	else:
-		var directionRadians = ((self.axis).angle())
-		# Normalize radian to [0, 2π]
-		while directionRadians < 0:
-			directionRadians += 2 * PI
-		directionRadians = fmod(directionRadians, 2 * PI)
-
-		# Convert radian to direction
-		if 0 <= directionRadians and directionRadians < PI / 4:
-			_animation_player.play("WalkRight")
+	if player_state == state.RUNGUN:
+		if self.axis == Vector2.ZERO:
+			_animation_player.play("RestDown")
 			get_node( "Sprite2D" ).set_flip_h( false )
-		elif PI / 4 <= directionRadians and directionRadians < 3 * PI / 4:
-			_animation_player.play("WalkDown")
-			get_node( "Sprite2D" ).set_flip_h( false )
-		elif 3 * PI / 4 <= directionRadians and directionRadians < 5 * PI / 4:
-			_animation_player.play("WalkRight")
-			get_node( "Sprite2D" ).set_flip_h( true )
 		else:
-			_animation_player.play("WalkUp")
-			get_node( "Sprite2D" ).set_flip_h( false )
-	_animation_player.advance(0)
+			var directionRadians = ((self.axis).angle())
+			# Normalize radian to [0, 2π]
+			while directionRadians < 0:
+				directionRadians += 2 * PI
+			directionRadians = fmod(directionRadians, 2 * PI)
+
+			# Convert radian to direction
+			if 0 <= directionRadians and directionRadians < PI / 4:
+				_animation_player.play("WalkRight")
+				get_node( "Sprite2D" ).set_flip_h( false )
+			elif PI / 4 <= directionRadians and directionRadians < 3 * PI / 4:
+				_animation_player.play("WalkDown")
+				get_node( "Sprite2D" ).set_flip_h( false )
+			elif 3 * PI / 4 <= directionRadians and directionRadians < 5 * PI / 4:
+				_animation_player.play("WalkRight")
+				get_node( "Sprite2D" ).set_flip_h( true )
+			else:
+				_animation_player.play("WalkUp")
+				get_node( "Sprite2D" ).set_flip_h( false )
+		_animation_player.advance(0)
+	
+	elif player_state == state.DODGING:
+		#play animation
+		spriteNode.modulate = Color.GRAY
+		pass
+	
 
 func die():
 	is_alive = false

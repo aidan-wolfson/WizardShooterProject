@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://cs6lw0g4ggesh"]
+[gd_scene load_steps=16 format=3 uid="uid://cs6lw0g4ggesh"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_mpsnb"]
 [ext_resource type="Texture2D" uid="uid://b4s8h0dm0306i" path="res://Art/mystic_woods_free_2.1/sprites/characters/player.png" id="2_ccy6s"]
+[ext_resource type="Script" path="res://player/cameraController.gd" id="3_8ehrr"]
 [ext_resource type="AudioStream" uid="uid://4c1dhouqntxi" path="res://Audio/SFX/Spells/Primary-Spell-Fire-1.wav" id="3_doeua"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sg52c"]
@@ -175,8 +176,14 @@ shape = SubResource("CircleShape2D_sg52c")
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2(0.24, 0.24)
 zoom = Vector2(0.8, 0.8)
+position_smoothing_speed = 9.0
+script = ExtResource("3_8ehrr")
 
 [node name="AttackTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="DodgeTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
 
