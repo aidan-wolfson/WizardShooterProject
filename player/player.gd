@@ -4,9 +4,11 @@ extends CharacterBody2D
 @export var CURRENT_HP = 50
 
 @export var MAX_SPEED = 300
-@export var DODGE_SPEED = 900
 @export var ACCELERATION = 15000
 @export var FRICTION = 1200
+@export var DODGE_SPEED = 900
+@export var DODGE_STAMINA = 100
+@export var DODGE_RECHARGEVAL = 10
 @export var is_alive : bool = true
 @export var dodgeZoom : Vector2 = Vector2(0.75,0.75)
 
@@ -20,10 +22,12 @@ extends CharacterBody2D
 @onready var rollVector = Vector2.ZERO
 @onready var attackTimer = $AttackTimer
 @onready var dodgeTimer = $DodgeTimer
+@onready var dodgeRechargeTimer = $DodgeRecharge
 @onready var enemyAttackTimer = $EnemyAttackTimer
 @onready var _animation_player = $AnimationPlayer
 @onready var spriteNode = $Sprite2D
 @onready var spellAudioPlayer = $SpellSFX
+@onready var dodgeAudioPlayer = $DodgeSFX
 @onready var hitbox = $player_hitbox
 @onready var camera = $Camera2D
 
@@ -32,6 +36,7 @@ extends CharacterBody2D
 
 signal player_died
 signal health_changed
+signal stamina_changed
 
 enum state {DODGING, SHIELDING, RUNGUN} # RUNGUN is the default state lol
 
@@ -47,17 +52,29 @@ func _physics_process(delta):
 				var projectile_dir = self.global_position.direction_to(get_global_mouse_position())
 				fire_projectile(projectile_dir)
 			
-			if velocity != Vector2.ZERO and Input.is_action_just_pressed("dodge"):
+			if velocity != Vector2.ZERO and Input.is_action_just_pressed("dodge") and DODGE_STAMINA >= 50:
 				player_state = state.DODGING
 				rollVector = velocity.normalized()
 				dodgeTimer.start()
-				print_debug("we're dodging!!! AAHHHHH. Velocity at dodge is: " + str(velocity))
+				
+				#reduce dodge stamina
+				if DODGE_STAMINA - 50 < 0:
+					DODGE_STAMINA = 0
+				else:
+					DODGE_STAMINA -= 50
+				stamina_changed.emit()
+				
+				#play SFX
+				dodgeAudioPlayer.play()
+				
+				print_debug("we're dodging!!! Dodge Stamina is: " + str(DODGE_STAMINA))
 		
 		elif player_state == state.DODGING:
 			# what do we do while dodging? well we play the dodge animation
 			dodge_state(delta)
 		
 		animationHandler()
+		dodge_recharge()
 
 func get_input_axis():
 	axis.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
@@ -92,6 +109,15 @@ func dodge_state(delta):
 		spriteNode.modulate = Color.WHITE
 		
 
+func dodge_recharge():
+	if dodgeRechargeTimer.is_stopped():
+		if DODGE_STAMINA + DODGE_RECHARGEVAL >= 100:
+			DODGE_STAMINA = 100
+		else: 
+			DODGE_STAMINA += DODGE_RECHARGEVAL
+		dodgeRechargeTimer.start()
+		stamina_changed.emit()
+
 func apply_friction(amount):
 	if velocity.length() > amount:
 		velocity -= velocity.normalized() * amount
@@ -125,6 +151,7 @@ func fire_projectile(projectile_direction: Vector2):
 		
 		spellAudioPlayer.play()
 		attackTimer.start()
+		
 		
 func animationHandler():
 	if player_state == state.RUNGUN:
