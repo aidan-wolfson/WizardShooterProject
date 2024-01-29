@@ -1,5 +1,7 @@
 extends "res://enemy.gd"
 
+@onready var walkSFX = $walkSound
+
 func _on_enemy_hitbox_area_entered(area):
 	if area.is_in_group("Projectile"):
 		# getting hit by projectile
@@ -11,3 +13,8 @@ func _on_enemy_hitbox_area_entered(area):
 func animationHandler():
 	pass
 	##Overrides enemy base function, used to prevent flipping the sprite
+
+func playWalkSFX():
+	walkSFX.play()
+
+
