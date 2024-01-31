@@ -17,4 +17,13 @@ func animationHandler():
 func playWalkSFX():
 	walkSFX.play()
 
+func _on_enemy_attack_range_area_shape_entered(area_rid, area, area_shape_index, local_shape_index):
+	if area.is_in_group("Player"):
+		# attack the player
+		#print_debug("Player entered enemy hitbox area")
+		in_attack_range = true
+
+func _on_enemy_attack_range_area_shape_exited(area_rid, area, area_shape_index, local_shape_index):
+	if area.is_in_group("Player"):
+		in_attack_range = false
 

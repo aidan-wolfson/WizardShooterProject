@@ -10,10 +10,10 @@
 radius = 100.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h7ad6"]
-radius = 122.94
+radius = 100.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ium0q"]
-radius = 500.0
+radius = 110.0
 
 [sub_resource type="Animation" id="Animation_m00tp"]
 length = 0.001
@@ -108,7 +108,7 @@ _data = {
 collision_layer = 0
 collision_mask = 11
 script = ExtResource("1_ixm51")
-move_speed = 15.0
+damage = 8
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -4.26411)
@@ -120,7 +120,6 @@ hframes = 5
 shape = SubResource("CircleShape2D_xu8d3")
 
 [node name="enemy_hitbox" type="Area2D" parent="."]
-visible = false
 collision_layer = 4
 collision_mask = 10
 
@@ -133,7 +132,6 @@ script = ExtResource("2_w10st")
 damage_node = ExtResource("3_5fpeu")
 
 [node name="enemy_attack_range" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 2
 
@@ -156,3 +154,5 @@ one_shot = true
 stream = ExtResource("5_2bkx8")
 
 [connection signal="area_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_area_entered"]
+[connection signal="area_shape_entered" from="enemy_attack_range" to="." method="_on_enemy_attack_range_area_shape_entered"]
+[connection signal="area_shape_exited" from="enemy_attack_range" to="." method="_on_enemy_attack_range_area_shape_exited"]

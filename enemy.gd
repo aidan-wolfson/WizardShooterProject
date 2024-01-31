@@ -39,8 +39,10 @@ func _physics_process(delta):
 
 func move():
 	velocity = Vector2.ZERO
-	if player != null:
+	if player != null and player.is_alive == true:
 		velocity += (global_position.direction_to(player.position) * move_speed)
+	elif player.is_alive == false:
+		velocity = Vector2.ZERO
 	# look_at(player.position)
 	move_and_slide()
 
