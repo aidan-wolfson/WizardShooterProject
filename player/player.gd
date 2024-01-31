@@ -11,6 +11,7 @@ extends CharacterBody2D
 @export var DODGE_RECHARGEVAL = 10
 @export var is_alive : bool = true
 @export var dodgeZoom : Vector2 = Vector2(0.75,0.75)
+@export var staff_offset : int = 26.5
 
 @export var PROJECTILE: PackedScene = preload("res://projectiles/projectile.tscn")
 
@@ -30,6 +31,8 @@ extends CharacterBody2D
 @onready var dodgeAudioPlayer = $DodgeSFX
 @onready var hitbox = $player_hitbox
 @onready var camera = $Camera2D
+@onready var staff = $StaffSprite
+@onready var projSpawn = $StaffSprite/ProjectileSpawn
 
 
 @onready var money : int = 0
@@ -144,7 +147,7 @@ func fire_projectile(projectile_direction: Vector2):
 	if PROJECTILE:
 		var projectile = PROJECTILE.instantiate()
 		get_parent().add_child(projectile)
-		projectile.global_position = self.global_position #instantiate the projectile at the player's pos
+		projectile.global_position = projSpawn.global_position #instantiate the projectile at the player's pos
 		
 		var projectile_rotation = projectile_direction.angle()
 		projectile.rotation = projectile_rotation #set projectile rot to point at mouse pos
@@ -154,6 +157,7 @@ func fire_projectile(projectile_direction: Vector2):
 		
 		
 func animationHandler():
+	var is_facing_left : bool
 	if player_state == state.RUNGUN:
 		if self.axis == Vector2.ZERO:
 			_animation_player.play("RestDown")
@@ -169,16 +173,37 @@ func animationHandler():
 			if 0 <= directionRadians and directionRadians < PI / 4:
 				_animation_player.play("WalkRight")
 				get_node( "Sprite2D" ).set_flip_h( false )
+				is_facing_left = false
 			elif PI / 4 <= directionRadians and directionRadians < 3 * PI / 4:
 				_animation_player.play("WalkDown")
 				get_node( "Sprite2D" ).set_flip_h( false )
 			elif 3 * PI / 4 <= directionRadians and directionRadians < 5 * PI / 4:
 				_animation_player.play("WalkRight")
 				get_node( "Sprite2D" ).set_flip_h( true )
+				is_facing_left = true
 			else:
 				_animation_player.play("WalkUp")
 				get_node( "Sprite2D" ).set_flip_h( false )
 		_animation_player.advance(0)
+		
+		# rotate staff sprite to mouse position
+		var staff_dir = self.global_position.direction_to(get_global_mouse_position())
+		var staff_rotation = staff_dir.angle()
+		print_debug(str(staff_rotation))
+		if staff_rotation < -1.57 or staff_rotation > 1.57:
+			# on player left
+			if is_facing_left:
+				staff.z_index = 0
+			staff.position = Vector2(-staff_offset,0.0)
+		else:
+			# on player right
+			staff.position = Vector2(staff_offset,0.0)
+			if is_facing_left:
+				staff.z_index = 0
+			elif !is_facing_left:
+				staff.z_index = 1
+		# set staff rotation and adjust for sprite radian difference
+		staff.rotation = (staff_rotation + 0.785398)
 	
 	elif player_state == state.DODGING:
 		#play animation

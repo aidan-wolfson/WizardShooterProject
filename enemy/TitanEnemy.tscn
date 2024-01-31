@@ -1,18 +1,19 @@
-[gd_scene load_steps=12 format=3 uid="uid://cb3t7i5uk17l0"]
+[gd_scene load_steps=13 format=3 uid="uid://cb3t7i5uk17l0"]
 
 [ext_resource type="Script" path="res://enemy/TitanEnemy.gd" id="1_ixm51"]
 [ext_resource type="Texture2D" uid="uid://d323cnxwc6wse" path="res://Art/sprites/TitanSpriteSheet.png" id="2_f4l6c"]
 [ext_resource type="Script" path="res://enemy/DamagePop.gd" id="2_w10st"]
 [ext_resource type="PackedScene" uid="uid://dfqiir6dolnm1" path="res://UI/damage_numbers.tscn" id="3_5fpeu"]
+[ext_resource type="AudioStream" uid="uid://b0wqvfum803qo" path="res://Audio/SFX/Enemies/TitanEnemy-Walk(V1).wav" id="5_2bkx8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xu8d3"]
 radius = 100.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h7ad6"]
-radius = 122.94
+radius = 100.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ium0q"]
-radius = 500.0
+radius = 110.0
 
 [sub_resource type="Animation" id="Animation_m00tp"]
 length = 0.001
@@ -39,6 +40,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("walkSound:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_fc3a8"]
@@ -71,6 +84,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [2, 3, 4, 0, 1]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("walkSound:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yrle5"]
 _data = {
@@ -83,7 +108,7 @@ _data = {
 collision_layer = 0
 collision_mask = 11
 script = ExtResource("1_ixm51")
-move_speed = 15.0
+damage = 8
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -4.26411)
@@ -95,7 +120,6 @@ hframes = 5
 shape = SubResource("CircleShape2D_xu8d3")
 
 [node name="enemy_hitbox" type="Area2D" parent="."]
-visible = false
 collision_layer = 4
 collision_mask = 10
 
@@ -108,7 +132,6 @@ script = ExtResource("2_w10st")
 damage_node = ExtResource("3_5fpeu")
 
 [node name="enemy_attack_range" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 2
 
@@ -127,4 +150,9 @@ one_shot = true
 
 [node name="attackSound" type="AudioStreamPlayer2D" parent="."]
 
+[node name="walkSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_2bkx8")
+
 [connection signal="area_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_area_entered"]
+[connection signal="area_shape_entered" from="enemy_attack_range" to="." method="_on_enemy_attack_range_area_shape_entered"]
+[connection signal="area_shape_exited" from="enemy_attack_range" to="." method="_on_enemy_attack_range_area_shape_exited"]
