@@ -1,10 +1,12 @@
-[gd_scene load_steps=13 format=3 uid="uid://cb3t7i5uk17l0"]
+[gd_scene load_steps=15 format=3 uid="uid://cb3t7i5uk17l0"]
 
 [ext_resource type="Script" path="res://enemy/TitanEnemy.gd" id="1_ixm51"]
 [ext_resource type="Texture2D" uid="uid://d323cnxwc6wse" path="res://Art/sprites/TitanSpriteSheet.png" id="2_f4l6c"]
 [ext_resource type="Script" path="res://enemy/DamagePop.gd" id="2_w10st"]
 [ext_resource type="PackedScene" uid="uid://dfqiir6dolnm1" path="res://UI/damage_numbers.tscn" id="3_5fpeu"]
 [ext_resource type="AudioStream" uid="uid://b0wqvfum803qo" path="res://Audio/SFX/Enemies/TitanEnemy-Walk(V1).wav" id="5_2bkx8"]
+[ext_resource type="AudioStream" uid="uid://ccvcgxtaldkno" path="res://Audio/SFX/Enemies/Titan SFX/Titan-Damage(V1).wav" id="5_t6j4a"]
+[ext_resource type="AudioStream" uid="uid://doh5u41n1wblq" path="res://Audio/SFX/Enemies/Titan SFX/Titan-Death(V1).wav" id="7_7gf4k"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xu8d3"]
 radius = 100.0
@@ -53,6 +55,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("deathSound:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_fc3a8"]
 resource_name = "death"
@@ -67,6 +81,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1.1892),
 "update": 0,
 "values": [0.0, -1.5708]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("deathSound:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_y2ep3"]
@@ -148,10 +174,15 @@ libraries = {
 wait_time = 2.0
 one_shot = true
 
-[node name="attackSound" type="AudioStreamPlayer2D" parent="."]
+[node name="damageSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_t6j4a")
+volume_db = 0.8
 
 [node name="walkSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_2bkx8")
+
+[node name="deathSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_7gf4k")
 
 [connection signal="area_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_area_entered"]
 [connection signal="area_shape_entered" from="enemy_attack_range" to="." method="_on_enemy_attack_range_area_shape_entered"]

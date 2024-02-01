@@ -26,6 +26,7 @@ var target_pos : Vector2
 var motion : Vector2
 
 func _ready():
+	randomize()
 	start_pos = global_position
 	target_pos = start_pos + move_dir
 	in_attack_range = false
