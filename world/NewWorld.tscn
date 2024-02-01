@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ck7121a48gcdi"]
+[gd_scene load_steps=11 format=3 uid="uid://ck7121a48gcdi"]
 
 [ext_resource type="Script" path="res://world/gamemanager.gd" id="1_b2mbt"]
 [ext_resource type="PackedScene" uid="uid://cs6lw0g4ggesh" path="res://player/player.tscn" id="2_d1bem"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://WaveMachine/Active.gd" id="7_ixwux"]
 [ext_resource type="Script" path="res://world/StaminaBar.gd" id="8_6ral5"]
 [ext_resource type="Texture2D" uid="uid://8o5caoohuv2s" path="res://Art/UI assets/healthbarUnder.png" id="10_3cg34"]
+[ext_resource type="AudioStream" uid="uid://djxfhnbuup6jr" path="res://Audio/Music/The Warden (Main Battle Music.wav" id="10_qe6h6"]
 [ext_resource type="Texture2D" uid="uid://d2tm25juykq8r" path="res://Art/UI assets/healthbarProgress.png" id="11_umr6t"]
 [ext_resource type="Script" path="res://world/HealthBar.gd" id="12_aqq5n"]
 
@@ -68,3 +69,8 @@ metadata/_edit_use_anchors_ = true
 
 [node name="WaveMachine" type="Node" parent="."]
 script = ExtResource("7_ixwux")
+
+[node name="BattleMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_qe6h6")
+volume_db = -8.0
+autoplay = true

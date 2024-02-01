@@ -189,19 +189,14 @@ func animationHandler():
 		# rotate staff sprite to mouse position
 		var staff_dir = self.global_position.direction_to(get_global_mouse_position())
 		var staff_rotation = staff_dir.angle()
+		staff.z_index = 0
 		print_debug(str(staff_rotation))
 		if staff_rotation < -1.57 or staff_rotation > 1.57:
 			# on player left
-			if is_facing_left:
-				staff.z_index = 0
 			staff.position = Vector2(-staff_offset,0.0)
 		else:
 			# on player right
 			staff.position = Vector2(staff_offset,0.0)
-			if is_facing_left:
-				staff.z_index = 0
-			elif !is_facing_left:
-				staff.z_index = 1
 		# set staff rotation and adjust for sprite radian difference
 		staff.rotation = (staff_rotation + 0.785398)
 	
