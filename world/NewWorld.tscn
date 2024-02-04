@@ -72,5 +72,5 @@ script = ExtResource("7_ixwux")
 
 [node name="BattleMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_qe6h6")
-volume_db = -8.0
+volume_db = -18.0
 autoplay = true
