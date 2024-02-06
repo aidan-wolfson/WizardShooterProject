@@ -51,11 +51,11 @@ func animationHandler():
 	if velocity.x < 0:
 		# enemy is moving left
 		_animation_player.play("walk")
-		spriteNode.set_flip_h( true )
+		spriteNode.set_flip_h( false )
 	elif velocity.x > 0:
 		# enemy is moving right, don't flip
 		_animation_player.play("walk")
-		spriteNode.set_flip_h( false )
+		spriteNode.set_flip_h( true )
 	elif velocity == Vector2.ZERO:
 		_animation_player.play("idle")
 
@@ -70,7 +70,9 @@ func die():
 	is_alive = false
 	hitbox.collision_layer = 0
 	hitbox.collision_mask = 0
+	$Sprite2D.modulate.a = 0.5
 	_animation_player.play("death")
+	
 	await _animation_player.animation_finished
 	await get_tree().create_timer(1.0).timeout
 	queue_free()

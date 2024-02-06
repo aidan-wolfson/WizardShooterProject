@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://dc0u13xkwaixs"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_xh2xk"]
-[ext_resource type="Texture2D" uid="uid://bufshn5ho12sm" path="res://Art/mystic_woods_free_2.1/sprites/characters/slime.png" id="2_fifwq"]
+[ext_resource type="Texture2D" uid="uid://ds4ajkc304dkj" path="res://Art/sprites/Wisp.png" id="2_j7l0y"]
 [ext_resource type="Script" path="res://enemy/DamagePop.gd" id="3_1gpos"]
 [ext_resource type="PackedScene" uid="uid://dfqiir6dolnm1" path="res://UI/damage_numbers.tscn" id="4_vlggv"]
 
@@ -28,7 +28,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_fvnyh"]
 resource_name = "death"
-length = 0.5
+length = 0.51
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -36,15 +36,15 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [28, 29, 30, 31, 32]
+"values": [7, 8, 9, 10, 11, 12]
 }
 
 [sub_resource type="Animation" id="Animation_8kobs"]
 resource_name = "idle"
-length = 0.4
+length = 1.2
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -53,15 +53,15 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3]
+"values": [0, 1, 2, 3, 4, 5]
 }
 
 [sub_resource type="Animation" id="Animation_4hb3u"]
 resource_name = "walk"
-length = 0.7
+length = 1.2
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -70,10 +70,10 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [14, 15, 16, 17, 18, 19, 20]
+"values": [0, 1, 2, 3, 4, 5]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_r0f13"]
@@ -97,14 +97,15 @@ knockback_modifier = 15.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." groups=["Enemy"]]
 scale = Vector2(6.325, 6.325)
-texture = ExtResource("2_fifwq")
-hframes = 7
-vframes = 5
+texture = ExtResource("2_j7l0y")
+hframes = 13
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Enemy"]]
+visible = false
 shape = SubResource("CircleShape2D_4ytau")
 
 [node name="enemy_hitbox" type="Area2D" parent="." groups=["Enemy"]]
+visible = false
 collision_layer = 4
 collision_mask = 10
 
@@ -125,6 +126,7 @@ script = ExtResource("3_1gpos")
 damage_node = ExtResource("4_vlggv")
 
 [node name="enemy_attack_range" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 2
 
