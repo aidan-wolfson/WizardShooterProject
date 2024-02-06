@@ -176,13 +176,14 @@ one_shot = true
 
 [node name="damageSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_t6j4a")
-volume_db = 0.8
+volume_db = -3.0
 
 [node name="walkSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_2bkx8")
 
 [node name="deathSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_7gf4k")
+volume_db = -3.0
 
 [connection signal="area_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_area_entered"]
 [connection signal="area_shape_entered" from="enemy_attack_range" to="." method="_on_enemy_attack_range_area_shape_entered"]

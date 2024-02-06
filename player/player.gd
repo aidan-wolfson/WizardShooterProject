@@ -190,7 +190,7 @@ func animationHandler():
 		var staff_dir = self.global_position.direction_to(get_global_mouse_position())
 		var staff_rotation = staff_dir.angle()
 		staff.z_index = 0
-		print_debug(str(staff_rotation))
+		#print_debug(str(staff_rotation))
 		if staff_rotation < -1.57 or staff_rotation > 1.57:
 			# on player left
 			staff.position = Vector2(-staff_offset,0.0)
