@@ -6,6 +6,8 @@ var witch = preload("res://enemy/WitchEnemy.tscn")
 var titan = preload("res://enemy/TitanEnemy.tscn")
 
 @onready var upgradeScreen = get_tree().get_root().get_node("PlayerTesting/CanvasLayer/UpgradeScreen")
+@onready var waveCountUI = get_tree().get_root().get_node("PlayerTesting/CanvasLayer/Panel/WaveStats")
+@onready var waveRemainsUI = get_tree().get_root().get_node("PlayerTesting/CanvasLayer/Panel/WaveRemains")
 
 var currentWave : int = 0
 var enemyList : Array 
@@ -22,6 +24,10 @@ func enter():
 	enemyList = buyEnemies(calculateWavePoints(currentWave))
 	#print("Entered wave " + str(currentWave) + " with " + str(calculateWavePoints(currentWave)) + " points purchasing the following enemies: " + str(enemyList))
 	spawnEnemies(enemyList)
+	
+	# connect waveStat UI 
+	waveCountUI.text = str("Wave: ") + str(currentWave)
+	# get_tree().get_nodes_in_group("ENEMIES").size()
 
 func end():
 	upgradeScreen.startUpgrade()
@@ -32,6 +38,9 @@ func end():
 #"ENEMIES") and there are no enemies that haven't spawned yet (enemyList == 0).
 #If both are at 0, it sends a signal to the Wavemachine to switch to InactiveState
 func _process(delta):
+	# connect UI to enemies remaining
+	waveRemainsUI.text = "Enemies Remaining: " + str(get_tree().get_nodes_in_group("ENEMIES").size())
+	
 	if get_tree().get_nodes_in_group("ENEMIES").size() == 0 and len(enemyList) == 0 and !alreadyEnded:
 		alreadyEnded = true
 		end()

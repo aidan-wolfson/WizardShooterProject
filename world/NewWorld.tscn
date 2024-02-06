@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ck7121a48gcdi"]
+[gd_scene load_steps=15 format=3 uid="uid://ck7121a48gcdi"]
 
 [ext_resource type="Script" path="res://world/gamemanager.gd" id="1_b2mbt"]
 [ext_resource type="PackedScene" uid="uid://cs6lw0g4ggesh" path="res://player/player.tscn" id="2_d1bem"]
@@ -6,10 +6,25 @@
 [ext_resource type="PackedScene" uid="uid://nybw7kveovfw" path="res://UI/upgrade_screen.tscn" id="7_gfart"]
 [ext_resource type="Script" path="res://WaveMachine/Active.gd" id="7_ixwux"]
 [ext_resource type="Script" path="res://world/StaminaBar.gd" id="8_6ral5"]
+[ext_resource type="FontFile" uid="uid://b76skbcqa1m7t" path="res://Art/Fonts/monogram-extended.ttf" id="9_tgr2v"]
 [ext_resource type="Texture2D" uid="uid://8o5caoohuv2s" path="res://Art/UI assets/healthbarUnder.png" id="10_3cg34"]
 [ext_resource type="AudioStream" uid="uid://djxfhnbuup6jr" path="res://Audio/Music/The Warden (Main Battle Music.wav" id="10_qe6h6"]
 [ext_resource type="Texture2D" uid="uid://d2tm25juykq8r" path="res://Art/UI assets/healthbarProgress.png" id="11_umr6t"]
 [ext_resource type="Script" path="res://world/HealthBar.gd" id="12_aqq5n"]
+
+[sub_resource type="Theme" id="Theme_8e7r3"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3asfo"]
+font = ExtResource("9_tgr2v")
+font_size = 24
+outline_size = 6
+outline_color = Color(0.360784, 0.25098, 0.2, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_laxk6"]
+font = ExtResource("9_tgr2v")
+font_size = 24
+outline_size = 6
+outline_color = Color(0.360784, 0.25098, 0.2, 1)
 
 [node name="PlayerTesting" type="Node2D"]
 script = ExtResource("1_b2mbt")
@@ -73,15 +88,26 @@ offset_left = 24.0
 offset_top = 19.0
 offset_right = 376.0
 offset_bottom = 96.0
+scale = Vector2(1.93706, 1.93706)
+theme = SubResource("Theme_8e7r3")
 
-[node name="Label" type="Label" parent="CanvasLayer/Panel"]
+[node name="WaveStats" type="Label" parent="CanvasLayer/Panel"]
 layout_mode = 0
 offset_left = 7.0
 offset_top = 10.0
 offset_right = 347.0
 offset_bottom = 62.0
-text = "Wave: 
-Remaining Enemies: "
+text = "Wave: "
+label_settings = SubResource("LabelSettings_3asfo")
+
+[node name="WaveRemains" type="Label" parent="CanvasLayer/Panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 35.0
+offset_right = 164.0
+offset_bottom = 61.0
+text = "Enemies Remaining:"
+label_settings = SubResource("LabelSettings_laxk6")
 
 [node name="WaveMachine" type="Node" parent="."]
 script = ExtResource("7_ixwux")
