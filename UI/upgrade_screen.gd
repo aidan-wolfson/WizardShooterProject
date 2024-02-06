@@ -27,10 +27,12 @@ func _ready():
 
 func startUpgrade():
 	shuffle()
+	get_tree().paused = true
 	self.show()
 
 func closeScreen():
 	self.hide()
+	get_tree().paused = false
 	waveMachine.enter()
 	
 

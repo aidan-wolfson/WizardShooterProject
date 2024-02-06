@@ -1,6 +1,9 @@
 extends "res://enemy.gd"
 
 @onready var walkSFX = $walkSound
+@onready var damageSFX = $damageSound
+@onready var deathSFX = $deathSound
+
 
 func _on_enemy_hitbox_area_entered(area):
 	if area.is_in_group("Projectile"):
@@ -8,6 +11,8 @@ func _on_enemy_hitbox_area_entered(area):
 		var damage = area.damage # damage being dealt to enemy
 		receiveKnockback(area.global_position, damage) 
 		receiveDamage(damage)
+		damageSFX.pitch_scale = randf_range(0.9,1.2)
+		damageSFX.play()
 		print_debug("enemy hit for " + str(damage) + " damage!")
 
 func animationHandler():

@@ -6,7 +6,11 @@ var witch = preload("res://enemy/WitchEnemy.tscn")
 var titan = preload("res://enemy/TitanEnemy.tscn")
 
 @onready var upgradeScreen = get_tree().get_root().get_node("PlayerTesting/CanvasLayer/UpgradeScreen")
+@onready var waveCountUI = get_tree().get_root().get_node("PlayerTesting/CanvasLayer/Panel/WaveStats")
+@onready var waveRemainsUI = get_tree().get_root().get_node("PlayerTesting/CanvasLayer/Panel/WaveRemains")
+@onready var player = (get_tree().get_root().get_node("PlayerTesting")).find_child("Player", true, true)
 
+var spawnDistance : int = 1000
 var currentWave : int = 0
 var enemyList : Array 
 
@@ -22,6 +26,10 @@ func enter():
 	enemyList = buyEnemies(calculateWavePoints(currentWave))
 	#print("Entered wave " + str(currentWave) + " with " + str(calculateWavePoints(currentWave)) + " points purchasing the following enemies: " + str(enemyList))
 	spawnEnemies(enemyList)
+	
+	# connect waveStat UI 
+	waveCountUI.text = str("Wave: ") + str(currentWave)
+	# get_tree().get_nodes_in_group("ENEMIES").size()
 
 func end():
 	upgradeScreen.startUpgrade()
@@ -32,6 +40,9 @@ func end():
 #"ENEMIES") and there are no enemies that haven't spawned yet (enemyList == 0).
 #If both are at 0, it sends a signal to the Wavemachine to switch to InactiveState
 func _process(delta):
+	# connect UI to enemies remaining
+	waveRemainsUI.text = "Enemies Remaining: " + str(get_tree().get_nodes_in_group("ENEMIES").size())
+	
 	if get_tree().get_nodes_in_group("ENEMIES").size() == 0 and len(enemyList) == 0 and !alreadyEnded:
 		alreadyEnded = true
 		end()
@@ -84,5 +95,18 @@ func spawnEnemies(enemyList):
 func getRandomPoint():
 	var gameAreaScale = get_tree().get_root().get_node("PlayerTesting/Game_Space").scale
 	var gameAreaShape = (((get_tree().get_root().get_node("PlayerTesting/Game_Space/MapArea/CollisionShape2D")).get_shape().size)/2)*gameAreaScale
+	var randX = randf_range(-gameAreaShape.x, gameAreaShape.x)
+	var randY = randf_range(-gameAreaShape.y, gameAreaShape.y)
+	print_debug(str(gameAreaShape))
+	# normalize random spawn point so that it's not too far from player
+	if randX - player.global_position.x >= spawnDistance:
+		randX = player.global_position.x + spawnDistance
+	elif randX - player.global_position.x <= -spawnDistance:
+		randX = player.global_position.x - spawnDistance # if randx is too far left of player, set to -200 away
 	
-	return Vector2(randf_range(-gameAreaShape.x, gameAreaShape.x), randf_range(-gameAreaShape.y, gameAreaShape.y))	
+	if randY - player.global_position.y >= spawnDistance:
+		randY = player.global_position.y + spawnDistance
+	elif randY - player.global_position.y <= -spawnDistance:
+		randY = player.global_position.y - spawnDistance
+		
+	return Vector2(randX, randY)	
