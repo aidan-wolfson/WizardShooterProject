@@ -160,31 +160,20 @@ func animationHandler():
 	var is_facing_left : bool
 	if player_state == state.RUNGUN:
 		if self.axis == Vector2.ZERO:
-			_animation_player.play("RestDown")
+			_animation_player.play("Idle")
 			get_node( "Sprite2D" ).set_flip_h( false )
 		else:
 			var directionRadians = ((self.axis).angle())
-			# Normalize radian to [0, 2π]
-			while directionRadians < 0:
-				directionRadians += 2 * PI
-			directionRadians = fmod(directionRadians, 2 * PI)
-
-			# Convert radian to direction
-			if 0 <= directionRadians and directionRadians < PI / 4:
-				_animation_player.play("WalkRight")
-				get_node( "Sprite2D" ).set_flip_h( false )
-				is_facing_left = false
-			elif PI / 4 <= directionRadians and directionRadians < 3 * PI / 4:
-				_animation_player.play("WalkDown")
-				get_node( "Sprite2D" ).set_flip_h( false )
-			elif 3 * PI / 4 <= directionRadians and directionRadians < 5 * PI / 4:
-				_animation_player.play("WalkRight")
-				get_node( "Sprite2D" ).set_flip_h( true )
+			if 3 * PI / 4 <= directionRadians and directionRadians < 5 * PI / 4:
+				_animation_player.play("Walk")  # Assuming you have a "WalkLeft" animation
+				get_node("Sprite2D").set_flip_h(true)  # Flip sprite for left direction
 				is_facing_left = true
 			else:
-				_animation_player.play("WalkUp")
-				get_node( "Sprite2D" ).set_flip_h( false )
-		_animation_player.advance(0)
+				_animation_player.play("Walk")  # Use "WalkRight" for right and the default case
+				get_node("Sprite2D").set_flip_h(false)  # Normal orientation for right direction
+				is_facing_left = false
+				_animation_player.advance(0)
+		
 		
 		# rotate staff sprite to mouse position
 		var staff_dir = self.global_position.direction_to(get_global_mouse_position())
