@@ -161,16 +161,16 @@ func animationHandler():
 	if player_state == state.RUNGUN:
 		if self.axis == Vector2.ZERO:
 			_animation_player.play("Idle")
-			get_node( "Sprite2D" ).set_flip_h( false )
+			#get_node( "Sprite2D" ).set_flip_h( false )
 		else:
-			var directionRadians = ((self.axis).angle())
-			if 3 * PI / 4 <= directionRadians and directionRadians < 5 * PI / 4:
+			#var directionRadians = ((self.axis).angle())
+			if velocity.x <= 0:
 				_animation_player.play("Walk")  # Assuming you have a "WalkLeft" animation
-				get_node("Sprite2D").set_flip_h(true)  # Flip sprite for left direction
+				spriteNode.set_flip_h(true)  # Flip sprite for left direction
 				is_facing_left = true
 			else:
 				_animation_player.play("Walk")  # Use "WalkRight" for right and the default case
-				get_node("Sprite2D").set_flip_h(false)  # Normal orientation for right direction
+				spriteNode.set_flip_h(false)  # Normal orientation for right direction
 				is_facing_left = false
 				_animation_player.advance(0)
 		
